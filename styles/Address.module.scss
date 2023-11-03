@@ -67,6 +67,11 @@
     //     color: #2b4236;
     //     border-color: #2b4236;
     // }
+    &_link {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
 }
 
 .switch {
