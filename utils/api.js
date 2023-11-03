@@ -1,6 +1,6 @@
 export async function fetchVerify(address, campaign) {
   const response = await fetch(
-    `https://api-stage.knowyourcat.id/v1/${address}${
+    `https://api.knowyourcat.id/v1/${address}${
       campaign ? `?campaign=${campaign}` : ""
     } `,
     { headers: { "X-NO-CACHE": true } }
@@ -12,7 +12,7 @@ export async function fetchVerify(address, campaign) {
 
 export async function fetchCategoryByName(address, category) {
   const response = await fetch(
-    `${process.env.REACT_APP_API_BASE_URL}/v1/${address}/categories?category=${category}`
+    `https://api.knowyourcat.id/v1/${address}/categories?category=${category}`
   );
   return response.ok
     ? await response.json()
@@ -21,7 +21,7 @@ export async function fetchCategoryByName(address, category) {
 export async function fetchCategoryByAddress(address, category, chain) {
   const chainId = chain ? chain : "11155111";
   const response = await fetch(
-    `${process.env.REACT_APP_API_BASE_URL}/v1/${address}/categories/${chainId}/${category}`
+    `https://api.knowyourcat.id/v1/${address}/categories/${chainId}/${category}`
   );
   return response.ok
     ? await response.json()
@@ -30,7 +30,7 @@ export async function fetchCategoryByAddress(address, category, chain) {
 
 export async function fetchCatImgUrl(address, campaign) {
   const response = await fetch(
-    `${process.env.REACT_APP_API_BASE_URL}/v1/${address}/cheshire${
+    `https://api.knowyourcat.id/v1/${address}/cheshire${
       campaign ? `?campaign=${campaign}` : ""
     }`
   );
@@ -90,23 +90,20 @@ export async function requestMint({
   campaign,
 }) {
   const campaignValue = campaign ? campaign : "";
-  const response = await fetch(
-    `${process.env.REACT_APP_API_BASE_URL}/v1/nfts/mint`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        address,
-        // signature,
-        selfMint,
-        chainId,
-        campaign: campaignValue,
-      }),
-    }
-  );
+  const response = await fetch(`https://api.knowyourcat.id/v1/nfts/mint`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      address,
+      // signature,
+      selfMint,
+      chainId,
+      campaign: campaignValue,
+    }),
+  });
 
   if (response.ok) {
     return await response.json();
@@ -117,7 +114,7 @@ export async function requestMint({
 
 export async function requestTaskMint(taskId) {
   const response = await fetch(
-    `${process.env.REACT_APP_API_BASE_URL}/v1/nfts/tasks/${taskId}`
+    `https://api.knowyourcat.id/v1/nfts/tasks/${taskId}`
   );
 
   if (response.ok) {
@@ -129,9 +126,7 @@ export async function requestTaskMint(taskId) {
 
 export async function requestMintSpecialNft({ address, chainId, campaign }) {
   const response = await fetch(
-    `${
-      process.env.REACT_APP_API_BASE_URL
-    }/v1/nfts/free-mint?address=${address}&chainId=${chainId}${
+    `https://api.knowyourcat.id/v1/nfts/free-mint?address=${address}&chainId=${chainId}${
       campaign ? `&campaign=${campaign}` : ""
     }`
   );
@@ -168,7 +163,7 @@ export async function requestSyncData(address, sourceId, chainId) {
 
 export async function requestVCData(address, claim) {
   const response = await fetch(
-    `${process.env.REACT_APP_API_BASE_URL}/v1/credentials/issue`,
+    `https://api.knowyourcat.id/v1/credentials/issue`,
     {
       method: "POST",
       headers: {
@@ -191,7 +186,7 @@ export async function requestVCData(address, claim) {
 
 export async function requestVCCallData(address, sourceId, chainId) {
   const response = await fetch(
-    `${process.env.REACT_APP_API_BASE_URL}/v1/credentials/calldata?address=${address}&sourceId=${sourceId}&chainId=${chainId}`
+    `https://api.knowyourcat.id/v1/credentials/calldata?address=${address}&sourceId=${sourceId}&chainId=${chainId}`
   );
 
   if (response.ok) {

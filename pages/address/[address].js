@@ -176,7 +176,7 @@ const Home = () => {
                         {provider.result &&
                           provider.sync.enabled &&
                           provider.sync.byChainIds?.map((byChainId, index) => {
-                            if (byChainId.chainId !== 5001) {
+                            if (byChainId.chainId !== 5000) {
                               return null;
                             }
                             return (
