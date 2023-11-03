@@ -135,7 +135,10 @@ const Home = () => {
                 "not for rendering" ||
               provider.symbol.startsWith("DEX_GURU") ||
               provider.symbol.startsWith("GITCOIN_PASSPORT") ||
-              provider.symbol.startsWith("SNAPSHOT") ? null : (
+              provider.symbol.startsWith("SNAPSHOT") ||
+              !provider.sync?.byChainIds.find(
+                byChainId => byChainId.chainId === 5000
+              ) ? null : (
                 <Tooltip
                   title={providersConstants[provider.symbol]?.tooltip}
                   placement="bottom"
