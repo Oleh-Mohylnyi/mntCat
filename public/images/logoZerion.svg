@@ -1,0 +1,10 @@
+<svg class="s-get__zerion-logo" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="80" height="80" rx="15.2381" fill="url(#a)"></rect>
+<path d="M17.3785 20c-1.371 0-1.8992 1.6953-.7489 2.4034l28.7793 17.3529c.7174.4417 1.6742.2672 2.1681-.3955l12.6535-16.6117C61.0908 21.595 60.2215 20 58.7324 20H17.3785ZM62.6113 60c1.3708 0 1.9128-1.7044.7626-2.4124L34.5863 40.2368c-.7173-.4415-1.6509-.2449-2.1448.4176l-12.678 16.6084C18.9034 58.4166 19.7998 60 21.2887 60h41.3226Z" fill="#fff"></path>
+<defs>
+<linearGradient id="a" x1="19.4068" y1="0" x2="48.1387" y2="48.6982" gradientUnits="userSpaceOnUse">
+<stop offset=".0001" stop-color="#608EFF"></stop>
+<stop offset="1" stop-color="#3265E6"></stop>
+</linearGradient>
+</defs>
+</svg>

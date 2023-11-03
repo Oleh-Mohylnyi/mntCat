@@ -1,0 +1,33 @@
+{
+  "name": "mnt-cat",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@rainbow-me/rainbowkit": "^1.2.0",
+    "@web3-react/core": "^8.2.3",
+    "classnames": "^2.3.2",
+    "ethers": "^6.8.0",
+    "moment": "^2.29.4",
+    "next": "^13.4.19",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-loader-spinner": "^5.4.5",
+    "sass": "^1.69.5",
+    "viem": "~1.16.3",
+    "wagmi": "~1.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.12",
+    "@types/react": "^18.2.21",
+    "eslint": "^8.15.0",
+    "eslint-config-next": "^13.4.19",
+    "typescript": "^5.0.4"
+  }
+}
