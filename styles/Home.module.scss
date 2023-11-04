@@ -5,7 +5,7 @@
 }
 
 .main {
-  min-height: 100vh;
+  min-height: calc(100vh - 7.2rem);
   padding: 0;
   flex: 1;
   display: flex;
@@ -16,8 +16,8 @@
 
 .footer {
   flex: 1;
-  padding: 2rem 0;
-  font-size: 12px;
+  padding: 2rem 0 0;
+  font-size: 0.5rem;
   color: rgba(255, 255, 255, 0.5);
   text-align: center;
   @media (min-width: 768px) {
