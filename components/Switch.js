@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "../styles/Address.module.scss";
 
 const Switch = ({ synced, required, handleSwitch }) => {
-  const [isActive, setIsActive] = useState(!required);
 
   return (
     <div className={styles.switch_container}>
@@ -10,15 +9,14 @@ const Switch = ({ synced, required, handleSwitch }) => {
         className={styles.switch_button}
         type="button"
         style={
-          isActive
+          !required
             ? { backgroundColor: "#ffea31" }
             : synced
             ? { backgroundColor: "#ffea3160" }
             : { backgroundColor: "#5F4C68" }
         }
         onClick={() => {
-          if (isActive === false) {
-            setIsActive(true);
+          if (required === true) {
             handleSwitch();
           }
         }}
@@ -26,14 +24,14 @@ const Switch = ({ synced, required, handleSwitch }) => {
         <div
           className={styles.switch_slider}
           style={
-            isActive
+            !required
               ? { transform: "translate(28px, 0px)" }
               : { transform: "translate(0px, 0px)" }
           }
         ></div>
       </button>
       {/* <div style={{ visibility: "hidden" }}>
-          {isActive ? <div>No</div> : <div>Yes</div>}
+          {!required ? <div>No</div> : <div>Yes</div>}
         </div> */}
     </div>
   );

@@ -50,7 +50,8 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
     onSuccess() {
       setActiveStep(4);
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      setTimeout(() => afterSyncAction(), 3000);
+      afterSyncAction(syncRequestData.providerSymbol, syncRequestData.chainId);
+      // setTimeout(() => afterSyncAction(), 3000);
       setTransactionHash(data.hash);
     },
   });
@@ -148,21 +149,20 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
     return (
       <button
         onClick={() => {
-          // setError(null);
-          // setActiveStep(2);
-          // sendTransaction?.({
-            // ...syncData,
-          // });
-          afterSyncAction(syncRequestData.providerSymbol, syncRequestData.chainId);
+          setError(null);
+          setActiveStep(2);
+          sendTransaction?.({
+            ...syncData,
+          });
         }}
         className={styles.button}
         style={{ width: "160px", marginTop: "16px" }}
-        // disabled={
-        //   activeStep === 0 ||
-        //   status === "loading" ||
-        //   status === "success" ||
-        //   !syncData
-        // }
+        disabled={
+          activeStep === 0 ||
+          status === "loading" ||
+          status === "success" ||
+          !syncData
+        }
       >
         {syncData ? (
           "Create attestation"

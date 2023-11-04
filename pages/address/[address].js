@@ -247,7 +247,7 @@ const Home = () => {
             syncRequestData={syncRequestData}
             afterSyncAction={(providerSymbol, chainId) => {
               setProviders(updateProviders(providers, providerSymbol, chainId));
-              fetchAddressData();
+              // fetchAddressData();
             }}
           />
         </Modal>
