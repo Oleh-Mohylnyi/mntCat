@@ -44,6 +44,7 @@ const Home = () => {
   const [credentials, setCredentials] = useState([]);
   const [syncRequestData, setSyncRequestData] = useState({});
   const [openModalSync, setOpenModalSync] = useState(false);
+  const [mantleJourney, setMantleJourney] = useState({});
   const router = useRouter();
   const { address } = router.query;
 
@@ -99,9 +100,26 @@ const Home = () => {
     setLoading(false);
   }
 
+  async function getAccountInfoMantle(address) {
+    console.log("start", address);
+    if (!address) return
+
+    try {
+      const response = await fetch(`/api/mantlejourney/${address}`)
+      const data = await response.json()
+
+      if (Object.keys(data).length !== 0) {
+        setMantleJourney(data);
+      }
+    } catch {
+      return 0
+    }
+  }
+
   useEffect(() => {
     if (address) {
       fetchAddressData();
+      getAccountInfoMantle(address);
     }
   }, [address]);
 
