@@ -39,7 +39,7 @@ const Home: NextPage = () => {
       <Head>
         <title>mntCat</title>
         <meta
-          content="MntCat verification, reputation, and other credentials Mantle that you have completed on applications and web3 platforms."
+          content="MntCat aggregator is activity, verification, reputation, and other credentials Mantle that you have completed on applications and web3 platforms."
           name="description"
         />
         <link href="/favicon.ico" rel="icon" />
