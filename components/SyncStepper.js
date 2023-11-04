@@ -128,18 +128,17 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
               : status === "loading" ||
                 ((isLoading || taskStatus === "loading") &&
                   taskStatus !== "success")
-                ? stylesAddress.stepper_message_loading
-                : isSuccess || taskStatus === "success"
-                  ? stylesAddress.stepper_message_success
-                  : {}
+              ? stylesAddress.stepper_message_loading
+              : isSuccess || taskStatus === "success"
+              ? stylesAddress.stepper_message_success
+              : {}
           }
         >
           {!!error && getErrorMessage()}
           {(isLoading || taskStatus === "loading") &&
             taskStatus !== "success" &&
             "Transaction is pending"}
-          {(isSuccess || taskStatus === "success") &&
-            "Success!"}
+          {(isSuccess || taskStatus === "success") && "Success!"}
         </div>
       </div>
     );
@@ -149,23 +148,24 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
     return (
       <button
         onClick={() => {
-          setError(null);
-          setActiveStep(2);
-          sendTransaction?.({
-            ...syncData,
-          });
+          // setError(null);
+          // setActiveStep(2);
+          // sendTransaction?.({
+            // ...syncData,
+          // });
+          afterSyncAction(syncRequestData.providerSymbol, syncRequestData.chainId);
         }}
         className={styles.button}
         style={{ width: "160px", marginTop: "16px" }}
-        disabled={
-          activeStep === 0 ||
-          status === "loading" ||
-          status === "success" ||
-          !syncData
-        }
+        // disabled={
+        //   activeStep === 0 ||
+        //   status === "loading" ||
+        //   status === "success" ||
+        //   !syncData
+        // }
       >
         {syncData ? (
-          "Attestation activity"
+          "Create attestation"
         ) : (
           <Oval
             height={18}
@@ -187,8 +187,9 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
     return (
       <div className={stylesAddress.stepper_link}>
         <a
-          href={`${networksConstants[chain?.id | 5000].explorerURL
-            }tx/${transactionHash}`}
+          href={`${
+            networksConstants[chain?.id | 5000].explorerURL
+          }tx/${transactionHash}`}
           rel="noopener noreferrer"
           target="_blank"
           className="mint-link"
@@ -202,7 +203,7 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
   return (
     <div>
       {activeStep === 4 ? (
-        <div className={styles.flex} style={{gap: "12px", color: "#00872E"}}>
+        <div className={styles.flex} style={{ gap: "12px", color: "#00872E" }}>
           <Image src={logoCheckMark} alt="check mark" />
           <h2>Success!</h2>
         </div>
@@ -227,9 +228,7 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
                 {activeStep === 0 ? (
                   <CustomConnectButton />
                 ) : (
-                  <span>
-                    {getShortAddress(syncRequestData.address, 6, 30)}
-                  </span>
+                  <span>{getShortAddress(syncRequestData.address, 6, 30)}</span>
                 )}
               </div>
             </div>
@@ -251,7 +250,7 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
             </div>
             <div className={stylesAddress.stepper_body}>
               <h2 style={activeStep + 1 < 2 ? { opacity: "50%" } : {}}>
-                Get attestation
+                Create attestation
               </h2>
               {renderSyncButton()}
             </div>

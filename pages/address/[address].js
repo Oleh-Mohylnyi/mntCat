@@ -88,10 +88,10 @@ const Home = () => {
       setCheshireImage(response.cheshire?.imageURL);
     }
     if (response?.providers) {
-      setCredentials(response.providers);
+      setProviders(response.providers);
     }
     if (response?.categories) {
-      setCredentials(response.categories);
+      setCategories(response.categories);
     }
     if (response?.credentials) {
       setCredentials(response.credentials);
@@ -104,6 +104,25 @@ const Home = () => {
       fetchAddressData();
     }
   }, [address]);
+
+
+  function updateProviders(provider, providerSymbol, chainId) {
+    return provider.map((item) => {
+      if (item.symbol === providerSymbol) {
+        const updatedItem = { ...item };
+        updatedItem.sync.byChainIds = updatedItem.sync.byChainIds.map(
+          (chain) => {
+            if (chain.chainId === chainId) {
+              chain.required = false;
+            }
+            return chain;
+          }
+        );
+        return updatedItem;
+      }
+      return item;
+    });
+  }
 
   return (
     <div className={styles.container}>
@@ -195,6 +214,7 @@ const Home = () => {
                                         sourceId: provider.sync.sourceId,
                                         chainId: byChainId.chainId,
                                         address,
+                                        providerSymbol: provider.symbol,
                                       });
                                       setOpenModalSync(true);
                                     }
@@ -225,7 +245,10 @@ const Home = () => {
         >
           <SyncStepper
             syncRequestData={syncRequestData}
-            afterSyncAction={() => fetchAddressData()}
+            afterSyncAction={(providerSymbol, chainId) => {
+              setProviders(updateProviders(providers, providerSymbol, chainId));
+              fetchAddressData();
+            }}
           />
         </Modal>
       </main>

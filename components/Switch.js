@@ -20,9 +20,6 @@ const Switch = ({ synced, required, handleSwitch }) => {
           if (isActive === false) {
             setIsActive(true);
             handleSwitch();
-            setTimeout(() => {
-                setIsActive(false);
-            }, 600);
           }
         }}
       >
