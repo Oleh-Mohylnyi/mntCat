@@ -72,6 +72,14 @@
         text-decoration: underline;
       }
     }
+    &_flex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @media (max-width: 600px) {
+        justify-content: space-between;
+      }
+    }
 }
 
 .switch {
@@ -91,6 +99,7 @@
     border-radius: 15px;
     border: none;
     background-color: #2b2459;
+    cursor: pointer;
 }
 &_slider {
     display: flex;

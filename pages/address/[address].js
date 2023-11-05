@@ -11,6 +11,7 @@ import InputForm from "../../components/InputForm";
 import Modal from "../../components/Modal";
 import SyncStepper from "../../components/SyncStepper";
 import Switch from "../../components/Switch";
+import SwitchComingSoon from "../../components/SwitchComingSoon";
 import { getDate } from "../../utils/tools";
 import { fetchVerify } from "../../utils/api";
 import { providersConstants, networksConstants } from "../../utils/constants";
@@ -89,7 +90,37 @@ const Home = () => {
       setCheshireImage(response.cheshire?.imageURL);
     }
     if (response?.providers) {
-      setProviders(response.providers);
+      const sortedProviders = response.providers
+        .filter(
+          (provider) =>
+            provider.symbol !== "CHAINALYSIS_SANCTIONS" &&
+            provider.symbol !== "OPIUM_ID" &&
+            provider.symbol !== "AGE" &&
+            !provider.symbol.startsWith("DEX_GURU") &&
+            !provider.symbol.startsWith("GITCOIN_PASSPORT") &&
+            !provider.symbol.startsWith("SNAPSHOT") &&
+            !!providersConstants[provider.symbol] &&
+            providersConstants[provider.symbol].group !== "not for rendering"
+        )
+        .sort((a, b) => {
+          if (
+            a.sync?.byChainIds.find(
+              (byChainId) => byChainId.chainId === 5000
+            ) &&
+            !b.sync?.byChainIds.find((byChainId) => byChainId.chainId === 5000)
+          )
+            return -1;
+          if (
+            b.sync?.byChainIds.find(
+              (byChainId) => byChainId.chainId === 5000
+            ) &&
+            !a.sync?.byChainIds.find((byChainId) => byChainId.chainId === 5000)
+          )
+            return 1;
+          if (a.result === true && b.result !== true) return -1;
+          if (b.result === true && a.result !== true) return 1;
+        });
+      setProviders(sortedProviders);
     }
     if (response?.categories) {
       setCategories(response.categories);
@@ -101,18 +132,17 @@ const Home = () => {
   }
 
   async function getAccountInfoMantle(address) {
-    console.log("start", address);
-    if (!address) return
+    if (!address) return;
 
     try {
-      const response = await fetch(`/api/mantlejourney/${address}`)
-      const data = await response.json()
+      const response = await fetch(`/api/mantlejourney/${address}`);
+      const data = await response.json();
 
       if (Object.keys(data).length !== 0) {
         setMantleJourney(data);
       }
     } catch {
-      return 0
+      return 0;
     }
   }
 
@@ -123,6 +153,7 @@ const Home = () => {
     }
   }, [address]);
 
+  console.log("providers", providers);
 
   function updateProviders(provider, providerSymbol, chainId) {
     return provider.map((item) => {
@@ -161,92 +192,91 @@ const Home = () => {
 
         {providers.length ? (
           <div className={stylesAddress.grid}>
-            {providers.map((provider, index) =>
-              !providersConstants[provider.symbol] ||
-              providersConstants[provider.symbol].group ===
-                "not for rendering" ||
-              provider.symbol.startsWith("DEX_GURU") ||
-              provider.symbol.startsWith("GITCOIN_PASSPORT") ||
-              provider.symbol.startsWith("SNAPSHOT") ||
-              !provider.sync?.byChainIds.find(
-                (byChainId) => byChainId.chainId === 5000
-              ) ? null : (
-                <Tooltip
-                  title={providersConstants[provider.symbol]?.tooltip}
-                  placement="bottom"
+            {providers.map((provider, index) => (
+              <Tooltip
+                title={
+                  <>
+                    <p>
+                      {provider.result
+                        ? providersConstants[provider.symbol]?.positiveResponse
+                        : providersConstants[provider.symbol]?.negativeResponse}
+                    </p>{" "}
+                    <p>{providersConstants[provider.symbol]?.tooltip}</p>
+                  </>
+                }
+                placement="bottom"
+                key={index}
+              >
+                <div
                   key={index}
+                  className={stylesAddress.card}
+                  style={
+                    !provider.result &&
+                    provider.status !== "pending" &&
+                    provider.status !== "error"
+                      ? {
+                          opacity: "20%",
+                        }
+                      : {}
+                  }
                 >
-                  <div
-                    key={index}
-                    className={stylesAddress.card}
-                    style={
-                      !provider.result &&
-                      provider.status !== "pending" &&
-                      provider.status !== "error"
-                        ? {
-                            opacity: "20%",
-                          }
-                        : {}
-                    }
-                  >
-                    <div className={styles.flex}>
-                      {providersConstants[provider.symbol]?.logo && (
-                        <Image
-                          src={providersConstants[provider.symbol]?.logo}
-                          alt={`logo ${provider.name}`}
-                          height={36}
-                          width={36}
-                        />
-                      )}
-                      <Link
-                        href={providersConstants[provider.symbol]?.baseURL}
-                        rel="loosener noreferrer"
-                        target="_blank"
-                        className={stylesAddress.card_link}
-                      >
+                  <div className={stylesAddress.card_flex}>
+                    <Link
+                      href={providersConstants[provider.symbol]?.baseURL}
+                      rel="loosener noreferrer"
+                      target="_blank"
+                      className={stylesAddress.card_link}
+                    >
+                      <div className={styles.flex}>
+                        {providersConstants[provider.symbol]?.logo && (
+                          <Image
+                            src={providersConstants[provider.symbol]?.logo}
+                            alt={`logo ${provider.name}`}
+                            height={36}
+                            width={36}
+                          />
+                        )}
                         <h2 style={{ margin: "0 12px" }}>
                           {providersConstants[provider.symbol].title}
-                          {provider.symbol === "AGE" && (
-                            <span>
-                              &nbsp;{getDate(provider.metadata?.timestamp)}
-                            </span>
-                          )}
                         </h2>
-                      </Link>
-
-                      <div>
-                        {provider.result &&
-                          provider.sync.enabled &&
-                          provider.sync.byChainIds?.map((byChainId, index) => {
-                            if (byChainId.chainId !== 5000) {
-                              return null;
-                            }
-                            return (
-                              <div key={index} className={stylesAddress.switch}>
-                                <Switch
-                                  synced={byChainId.timestamp !== 0}
-                                  required={byChainId.required}
-                                  handleSwitch={() => {
-                                    if (byChainId.required) {
-                                      setSyncRequestData({
-                                        sourceId: provider.sync.sourceId,
-                                        chainId: byChainId.chainId,
-                                        address,
-                                        providerSymbol: provider.symbol,
-                                      });
-                                      setOpenModalSync(true);
-                                    }
-                                  }}
-                                />
-                              </div>
-                            );
-                          })}
                       </div>
+                    </Link>
+
+                    <div>
+                      {provider.sync.enabled ? (
+                        provider.sync.byChainIds?.map((byChainId, index) => {
+                          if (byChainId.chainId !== 5000) {
+                            return null;
+                          }
+                          return (
+                            <div key={index} className={stylesAddress.switch}>
+                              <Switch
+                                result={provider.result}
+                                synced={byChainId.timestamp !== 0}
+                                required={byChainId.required}
+                                handleSwitch={() => {
+                                  if (byChainId.required) {
+                                    setSyncRequestData({
+                                      sourceId: provider.sync.sourceId,
+                                      chainId: byChainId.chainId,
+                                      address,
+                                      providerSymbol: provider.symbol,
+                                    });
+                                    setOpenModalSync(true);
+                                  }
+                                }}
+                              />
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <SwitchComingSoon />
+                      )}
                     </div>
                   </div>
-                </Tooltip>
-              )
-            )}
+                </div>
+              </Tooltip>
+            ))}
           </div>
         ) : (
           <p

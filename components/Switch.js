@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../styles/Address.module.scss";
 
-const Switch = ({ synced, required, handleSwitch }) => {
+const Switch = ({ result, synced, required, handleSwitch }) => {
 
   return (
     <div className={styles.switch_container}>
@@ -20,6 +20,7 @@ const Switch = ({ synced, required, handleSwitch }) => {
             handleSwitch();
           }
         }}
+        disabled={!result || !required}
       >
         <div
           className={styles.switch_slider}
