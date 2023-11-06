@@ -12,6 +12,7 @@ import Modal from "../../components/Modal";
 import SyncStepper from "../../components/SyncStepper";
 import Switch from "../../components/Switch";
 import SwitchComingSoon from "../../components/SwitchComingSoon";
+import Table from "../../components/Table";
 import { getDate } from "../../utils/tools";
 import { fetchVerify } from "../../utils/api";
 import { providersConstants, networksConstants } from "../../utils/constants";
@@ -153,7 +154,7 @@ const Home = () => {
     }
   }, [address]);
 
-  console.log("providers", providers);
+  console.log("mantlejourney", mantleJourney);
 
   function updateProviders(provider, providerSymbol, chainId) {
     return provider.map((item) => {
@@ -285,6 +286,10 @@ const Home = () => {
             loading ...
           </p>
         )}
+
+        {Object.keys(mantleJourney).length ? (
+          <Table data={mantleJourney}/>
+        ) : null}
 
         <Modal
           closeHidden
