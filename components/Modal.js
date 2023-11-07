@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// import classNames from "classnames";
 import Image from "next/image";
 import styles from "../styles/Address.module.scss";
 
