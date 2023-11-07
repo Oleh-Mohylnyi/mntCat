@@ -27,7 +27,7 @@ const Table = ({ data }) => {
             style={
               index % 2 === 0
                 ? {}
-                : { backgroundColor: "rgba(255, 255, 255, 0.02)" }
+                : { backgroundColor: "rgba(255, 255, 255, 0.04)" }
             }
           >
             {group.desc}
