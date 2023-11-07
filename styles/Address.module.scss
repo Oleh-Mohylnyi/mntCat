@@ -46,7 +46,7 @@
   border: 1px solid #eaeaea;
   border-radius: 16px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 350px;
+  width: calc((100% - 64px) / 2);
   @media (max-width: 600px) {
     width: 100%;
     flex-direction: column;
