@@ -13,6 +13,7 @@ import SyncStepper from "../../components/SyncStepper";
 import Switch from "../../components/Switch";
 import SwitchComingSoon from "../../components/SwitchComingSoon";
 import Table from "../../components/Table";
+import StatusChart from "../../components/StatusChart";
 import { getDate } from "../../utils/tools";
 import { fetchVerify } from "../../utils/api";
 import { providersConstants, networksConstants } from "../../utils/constants";
@@ -154,8 +155,6 @@ const Home = () => {
     }
   }, [address]);
 
-  console.log("mantlejourney", mantleJourney);
-
   function updateProviders(provider, providerSymbol, chainId) {
     return provider.map((item) => {
       if (item.symbol === providerSymbol) {
@@ -288,7 +287,22 @@ const Home = () => {
         )}
 
         {Object.keys(mantleJourney).length ? (
-          <Table data={mantleJourney}/>
+          <div className={styles.section}>
+            <h2 className={stylesAddress.title}>Mantle Journey Miles</h2>
+            <div className={styles.flex} style={{marginBottom: "16px"}}>
+              <StatusChart
+                data={mantleJourney.miles.milesGroups.map((group) => {
+                  const name = group.desc;
+                  const value = group.miles;
+                  return { name, value };
+                }).sort((a, b) => {
+                  if (a.value > b.value) return -1;
+                  if (b.value <= a.value) return 1;
+                })}
+              />
+            </div>
+            <Table data={mantleJourney} />
+          </div>
         ) : null}
 
         <Modal
