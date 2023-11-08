@@ -1,7 +1,13 @@
+import { useState, useEffect } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import styles from "../styles/Home.module.scss";
 
-const CustomConnectButton = ({typeStyle = ""}) => {
+const CustomConnectButton = ({ typeStyle = "" }) => {
+  const [screenWidth, setScreenWidth] = useState(1440);
+  useEffect(() => {
+    setScreenWidth(window.screen.width);
+  }, []);
+
   return (
     <ConnectButton.Custom>
       {({
@@ -39,7 +45,11 @@ const CustomConnectButton = ({typeStyle = ""}) => {
                     className={
                       typeStyle === "link" ? styles.link : styles.button
                     }
-                    style={typeStyle === "link" ? { color: "rgba(255, 255, 255, 0.5)" } : {}}
+                    style={
+                      typeStyle === "link"
+                        ? { color: "rgba(255, 255, 255, 0.5)" }
+                        : {}
+                    }
                   >
                     {typeStyle === "link" ? "connect wallet" : "Connect Wallet"}
                   </button>
@@ -63,9 +73,11 @@ const CustomConnectButton = ({typeStyle = ""}) => {
                     type="button"
                     className={styles.button}
                   >
-                    {account.displayName
-                      ? `Disconnect ${account.displayName}`
-                      : "Disconnect wallet"}
+                    {screenWidth >= 600 || screenWidth === undefined
+                      ? account.displayName
+                        ? `Disconnect ${account.displayName}`
+                        : "Disconnect wallet"
+                      : "Disconnect"}
                   </button>
                 </div>
               );
