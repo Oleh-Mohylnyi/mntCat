@@ -189,7 +189,7 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
         <a
           href={`${
             networksConstants[chain?.id | 5000].explorerURL
-          }tx/${transactionHash}`}
+          }/tx/${transactionHash}`}
           rel="noopener noreferrer"
           target="_blank"
           className="mint-link"

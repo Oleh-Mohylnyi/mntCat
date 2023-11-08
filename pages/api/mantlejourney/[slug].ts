@@ -25,24 +25,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         const milesRes = await fetch(`https://mdi-quests-api-production.up.railway.app/api/thirdparty/user/${slug}`)
         const milesData = await milesRes.json()
 
-        // const nftsRes = await fetch(`https://mdi-quests-api-production.up.railway.app/nft-mint/nfts?address=${slug}`)
-        // const nftsData = await nftsRes.json()
-
         let response: Data = {}
 
         if (milesData?.miles) {
-            // const liquidity = milesData.miles?.milesGroups.find((item: any) => item.name === 'MJM_PA_LIQUIDITY')
-            // const lendleLiquidity = liquidity?.details.find((item: any) => item.name === 'numTxnsLiquidityLendle')?.miles ?? 0
             response = { ...milesData }
-            // response.miles = {
-            //     lendle: lendleLiquidity,
-            //     total: milesData?.miles.miles
-            // }
         }
-        console.log(response)
-        // if (nftsData && nftsData.length > 0) {
-        //     response.nfts = nftsData.map((item: any) => item.imageURL)
-        // }
 
         res.status(200).json(response)
     } catch (err) {

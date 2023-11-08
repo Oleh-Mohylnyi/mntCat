@@ -70,8 +70,6 @@ const InputForm = ({ loading, setLoading }) => {
         //       name: value,
         //       chainId: 1,
         //     });
-        //       console.log(value);
-        //   console.log("providers", providers);
         // const provider = new providers.JsonRpcProvider(
         //   "https://mainnet.infura.io/v3/723fae493ef5485381f4974be919da80"
         // );
