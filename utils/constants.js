@@ -248,8 +248,8 @@ export const providersConstants = {
     symbol: "GITCOIN_PASSPORT",
     logo: logoGitcoin,
     title: "GITCOIN PASSPORT",
-    positiveResponse: "Has passport",
-    negativeResponse: "No passport",
+    positiveResponse: "Has attestation from this issuer",
+    negativeResponse: "No attestation from this issuer",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified Twitter account on Gitcoin Passport. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -343,84 +343,29 @@ export const providersConstants = {
     title: "Active since",
     tooltip: "When was the first transaction made",
     group: "Address features",
-    },
-  
-  DEX_GURU_ETH_CASUAL: {
-    symbol: "DEX_GURU_ETH_CASUAL",
-    // logo: logoEth,
-    title: "ETH",
-    baseURL: "https://etherscan.io/",
-    getUrl: (address) => {
-      return `https://etherscan.io/address/${address}`;
-    },
-    tooltip:
-      "The DexGuru platform offers users tools that reflect portfolios and trading activity across multiple decentralized exchanges.",
-    labelUp: logoDexGuru,
-    // labelDown: iconDexGuruCasual,
-    group: "Trading activity",
   },
-  DEX_GURU_ETH_MEDIUM: {
-    symbol: "DEX_GURU_ETH_MEDIUM",
-    // logo: logoEth,
-    title: "ETH",
-    baseURL: "https://etherscan.io/",
+  _DEX_GURU: {
+    symbol: "_DEX_GURU",
+    logo: logoDexGuru,
+    title: "Dex.guru",
+    baseURL: "https://dex.guru/",
+    positiveResponse: "Has activity on trading platform",
+    negativeResponse: "No activity on trading platform",
     getUrl: (address) => {
-      return `https://etherscan.io/address/${address}`;
+      return `https://dex.guru/token/eth/${address}`;
     },
     tooltip:
       "The DexGuru platform offers users tools that reflect portfolios and trading activity across multiple decentralized exchanges.",
-    labelUp: logoDexGuru,
-    // labelDown: iconDexGuruMedium,
-    group: "Trading activity",
-  },
-  DEX_GURU_ETH_HEAVY: {
-    symbol: "DEX_GURU_ETH_HEAVY",
-    // logo: logoEth,
-    title: "ETH",
-    baseURL: "https://etherscan.io/",
-    getUrl: (address) => {
-      return `https://etherscan.io/address/${address}`;
-    },
-    tooltip:
-      "The DexGuru platform offers users tools that reflect portfolios and trading activity across multiple decentralized exchanges.",
-    labelUp: logoDexGuru,
-    // labelDown: iconDexGuruHeavy,
-    group: "Trading activity",
-  },
-  DEX_GURU_ETH_BOT: {
-    symbol: "DEX_GURU_ETH_BOT",
-    // logo: logoEth,
-    title: "ETH",
-    baseURL: "https://etherscan.io/",
-    getUrl: (address) => {
-      return `https://etherscan.io/address/${address}`;
-    },
-    tooltip:
-      "The DexGuru platform offers users tools that reflect portfolios and trading activity across multiple decentralized exchanges.",
-    labelUp: logoDexGuru,
-    // labelDown: iconDexGuruBot,
-    group: "Trading activity",
-  },
-  DEX_GURU_ETH_NOOB: {
-    symbol: "DEX_GURU_ETH_NOOB",
-    // logo: logoEth,
-    title: "ETH",
-    baseURL: "https://etherscan.io/",
-    getUrl: (address) => {
-      return `https://etherscan.io/address/${address}`;
-    },
-    tooltip:
-      "The DexGuru platform offers users tools that reflect portfolios and trading activity across multiple decentralized exchanges.",
-    labelUp: logoDexGuru,
-    // labelDown: iconDexGuruBot,
     group: "Trading activity",
   },
 
   SNAPSHOT_PROPOSER: {
     symbol: "SNAPSHOT_PROPOSER",
-    // logo: iconProposer,
+    logo: logoSnapshot,
     title: "Snapshot",
     baseURL: "https://snapshot.org/",
+    positiveResponse: "Has social title",
+    negativeResponse: "No social title proposer or voter",
     getUrl: (address) => {
       return `https://snapshot.org/`;
     },
@@ -431,7 +376,7 @@ export const providersConstants = {
   },
   SNAPSHOT_VOTER: {
     symbol: "SNAPSHOT_VOTER",
-    // logo: iconVoter,
+    logo: logoSnapshot,
     title: "Snapshot",
     baseURL: "https://snapshot.org/",
     getUrl: (address) => {
@@ -494,6 +439,103 @@ export const providersConstants = {
       "Verified Coinbase account on KnowYorCat. Proof of ownership of data is provided using cryptography, while keeping the data private.",
     group: "Verifications",
   },
+  Telegram: {
+    symbol: "Telegram",
+    logo: logoTelegram,
+    title: "TELEGRAM",
+    positiveResponse: " has attestation from Telegram",
+    negativeResponse: " does not have attestation from Telegram",
+    baseURL: "https://telegram.org",
+    getUrl: (address) => {
+      return `https://telegram.org`;
+    },
+    tooltip:
+      "Verified Telegram account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
+    group: "Verifications",
+  },
+  Google: {
+    symbol: "Google",
+    logo: logoGoogle,
+    title: "GOOGLE",
+    positiveResponse: " has attestation from Google",
+    negativeResponse: " does not have attestation from Google",
+    baseURL: "https://www.google.com/",
+    getUrl: (address) => {
+      return `https://www.google.com/`;
+    },
+    tooltip:
+      "Verified Google account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
+    group: "Verifications",
+  },
+  Twitter: {
+    symbol: "Twitter",
+    logo: logoTwitter,
+    title: "TWITTER",
+    positiveResponse: " has attestation from Twitter",
+    negativeResponse: " does not have attestation from Twitter",
+    baseURL: "https://twitter.com/",
+    getUrl: (address) => {
+      return `https://twitter.com/`;
+    },
+    tooltip:
+      "Verified Twitter account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
+    group: "Verifications",
+  },
+  Github: {
+    symbol: "Github",
+    logo: logoGitHub,
+    title: "GITHUB",
+    positiveResponse: " has attestation from Github",
+    negativeResponse: " does not have attestation from Github",
+    baseURL: "https://passport.gitcoin.co/",
+    tooltip:
+      "Verified GitHub account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
+    group: "Verifications",
+  },
+  Facebook: {
+    symbol: "Facebook",
+    logo: logoFacebook,
+    title: "FACEBOOK",
+    positiveResponse: " has attestation from Facebook",
+    negativeResponse: " does not have attestation from Facebook",
+    baseURL: "https://passport.gitcoin.co/",
+    tooltip:
+      "Verified Facebook account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
+    group: "Verifications",
+  },
+  Brightid: {
+    symbol: "Brightid",
+    logo: logoBrightID,
+    title: "BRIGHTID",
+    positiveResponse: " has attestation from Brightid",
+    negativeResponse: " does not have attestation from Brightid",
+    baseURL: "https://passport.gitcoin.co/",
+    tooltip:
+      "Verified BrightID account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
+    group: "Verifications",
+  },
+  Discord: {
+    symbol: "Discord",
+    logo: logoDiscord,
+    title: "DISCORD",
+    positiveResponse: " has attestation from Discord",
+    negativeResponse: " does not have attestation from Discord",
+    baseURL: "https://passport.gitcoin.co/",
+    tooltip:
+      "Verified Discord account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
+    group: "Verifications",
+  },
+  Linkedin: {
+    symbol: "Linkedin",
+    logo: logoLinkedIn,
+    title: "LINKEDIN",
+    positiveResponse: " has attestation from Linkedin",
+    negativeResponse: " does not have attestation from Linkedin",
+    baseURL: "https://passport.gitcoin.co/",
+    tooltip:
+      "Verified Linkedin account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
+    group: "Verifications",
+  },
 };
 
 export const issuersCredentialConstants = {
@@ -512,6 +554,8 @@ export const credentialsConstants = {
     symbol: "Telegram",
     logo: logoTelegram,
     title: "TELEGRAM",
+    positiveResponse: " has attestation from Telegram",
+    negativeResponse: " does not have attestation from Telegram",
     baseURL: "https://telegram.org",
     getUrl: (address) => {
       return `https://telegram.org`;
@@ -524,6 +568,8 @@ export const credentialsConstants = {
     symbol: "Google",
     logo: logoGoogle,
     title: "GOOGLE",
+    positiveResponse: " has attestation from Google",
+    negativeResponse: " does not have attestation from Google",
     baseURL: "https://www.google.com/",
     getUrl: (address) => {
       return `https://www.google.com/`;
@@ -536,6 +582,8 @@ export const credentialsConstants = {
     symbol: "Twitter",
     logo: logoTwitter,
     title: "TWITTER",
+    positiveResponse: " has attestation from Twitter",
+    negativeResponse: " does not have attestation from Twitter",
     baseURL: "https://twitter.com/",
     getUrl: (address) => {
       return `https://twitter.com/`;
@@ -548,8 +596,8 @@ export const credentialsConstants = {
     symbol: "Github",
     logo: logoGitHub,
     title: "GITHUB",
-    positiveResponse: "Has passport",
-    negativeResponse: "No passport",
+    positiveResponse: " has attestation from Github",
+    negativeResponse: " does not have attestation from Github",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified GitHub account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -559,8 +607,8 @@ export const credentialsConstants = {
     symbol: "Facebook",
     logo: logoFacebook,
     title: "FACEBOOK",
-    positiveResponse: "Has passport",
-    negativeResponse: "No passport",
+    positiveResponse: " has attestation from Facebook",
+    negativeResponse: " does not have attestation from Facebook",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified Facebook account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -570,8 +618,8 @@ export const credentialsConstants = {
     symbol: "Brightid",
     logo: logoBrightID,
     title: "BRIGHTID",
-    positiveResponse: "Has passport",
-    negativeResponse: "No passport",
+    positiveResponse: " has attestation from Brightid",
+    negativeResponse: " does not have attestation from Brightid",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified BrightID account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -581,8 +629,8 @@ export const credentialsConstants = {
     symbol: "Discord",
     logo: logoDiscord,
     title: "DISCORD",
-    positiveResponse: "Has passport",
-    negativeResponse: "No passport",
+    positiveResponse: " has attestation from Discord",
+    negativeResponse: " does not have attestation from Discord",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified Discord account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -592,8 +640,8 @@ export const credentialsConstants = {
     symbol: "Linkedin",
     logo: logoLinkedIn,
     title: "LINKEDIN",
-    positiveResponse: "Has passport",
-    negativeResponse: "No passport",
+    positiveResponse: " has attestation from Linkedin",
+    negativeResponse: " does not have attestation from Linkedin",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified Linkedin account. Proof of ownership of data is provided using cryptography, while keeping the data private.",

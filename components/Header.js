@@ -19,7 +19,11 @@ const Header = () => {
         rel="loosener noreferrer"
         target="_blank"
       >
-        <Image height={42} src={screenWidth >= 600 ? logo : logoKYC} alt="Mantle logo"></Image>
+        <Image
+          height={42}
+          src={screenWidth >= 600 ? logo : logoKYC}
+          alt="Mantle logo"
+        ></Image>
       </Link>
       <div></div>
       <div style={{ padding: "6px" }}>

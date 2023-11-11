@@ -1,13 +1,20 @@
 export async function fetchVerify(address, campaign) {
-  const response = await fetch(
-    `https://api.knowyourcat.id/v1/${address}${
-      campaign ? `?campaign=${campaign}` : ""
-    } `,
-    { headers: { "X-NO-CACHE": true } }
-  );
-  return response.ok
-    ? await response.json()
-    : Promise.reject(new Error("Not found"));
+  try {
+    const response = await fetch(
+      `https://api.knowyourcat.id/v1/${address}${
+        campaign ? `?campaign=${campaign}` : ""
+      } `,
+      { headers: { "X-NO-CACHE": true } }
+    );
+
+    if (!response.ok) {
+      throw new Error("Not found");
+    }
+
+    return await response.json();
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 
 export async function fetchCategoryByName(address, category) {

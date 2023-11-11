@@ -1,39 +1,26 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import { providers, utils } from "ethers";
 import { fetchEnsAddress } from "@wagmi/core";
-import Image from "next/image";
 import { useAccount } from "wagmi";
-import styles from "../styles/Home.module.scss";
 import { Oval } from "react-loader-spinner";
+import CustomConnectButton from "../components/CustomConnectButton";
+import { getShortAddress } from "../utils/tools";
+import styles from "../styles/Home.module.scss";
 
 const PLACEHOLDER = "enter the address or ENS";
-const SUBMIT_BUTTON_TITLE = (
-  <>
-    <span>Generate WEB</span>
-    <span className="input-text-sub">3</span>
-    <span>&nbsp;ID</span>
-  </>
-);
 
 const InputForm = ({ loading, setLoading }) => {
   const [invalidAddress, setInvalidAddress] = useState(false);
   const [value, setValue] = useState("");
-  const { address: account } = useAccount();
+  const [waitingСonnection, setWaitingСonnection] = useState(false);
+  const [connected, setConnected] = useState(false);
+  const { address: account, isConnected } = useAccount();
   const router = useRouter();
   const { address: addressRoute } = router.query;
-  const [placeholder, setPlaceholder] = useState(addressRoute || PLACEHOLDER);
-  //   const specialMintQuery = useMemo(() => {
-  //     const queryString = location.search;
-  //     const urlParams = new URLSearchParams(queryString);
-  //     const specialMintName = urlParams.get("specialmint");
-  //     return specialMintName ? `?specialmint=${specialMintName}` : "";
-  //   }, [location]);
-
-  const inputClasses = styles.input;
-  //   `input-${typeStyle}_input`,
-  // ${ "input-warning_invalid": invalidAddress }
-  // ${ "input-loader": loading }`;
+  const [placeholder, setPlaceholder] = useState(
+    addressRoute ? addressRoute : PLACEHOLDER
+  );
 
   const handleChange = (e) => {
     setInvalidAddress(false);
@@ -128,55 +115,89 @@ const InputForm = ({ loading, setLoading }) => {
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
 
-    useEffect(() => {
+  useEffect(() => {
+    if (addressRoute) {
       setPlaceholder(addressRoute);
-    }, [addressRoute]);
+    }
+  }, [addressRoute]);
+
+  useEffect(() => {
+    setConnected(isConnected);
+    if (isConnected && waitingСonnection) {
+      router.push(`/address/${account}`);
+    }
+  }, [isConnected]);
 
   return (
-    <div className={styles.section}>
-      {invalidAddress && (
-        <div>Something is wrong, please control the information</div>
-      )}
-      <div className={styles.form}>
-        <input
-          type="text"
-          // label="Verify"
-          // labelHidden
-          placeholder={placeholder}
-          value={value.trim()}
-          onChange={handleChange}
-          disabled={loading}
-          className={styles.input}
-          autoFocus
-          inputMode="text"
-        ></input>
-        <button
-          type="submit"
-          wideMobile
-          onClick={() => {
-            handleVerify(value);
-          }}
-          disabled={!value || loading}
-          className={styles.button}
-          style={{ width: "60px" }}
-        >
-          {loading ? (
-            <Oval
-              height={18}
-              width={18}
-              color="#000"
-              wrapperStyle={{ marginLeft: "auto", marginRight: "auto" }}
-              wrapperClass={styles.flex}
-              visible={true}
-              ariaLabel="oval-loading"
-              secondaryColor="rgb(35, 35, 35)"
-              strokeWidth={3}
-              strokeWidthSecondary={5}
-            />
-          ) : (
-            "OK"
-          )}
-        </button>
+    <div>
+      <div className={styles.inputForm_errorSection}>
+        {invalidAddress && "Something is wrong, please control the information"}
+      </div>
+      <div className={styles.inputForm_inputSection}>
+        <div className={styles.inputForm_form}>
+          <input
+            type="text"
+            placeholder={placeholder}
+            value={value.trim()}
+            onChange={handleChange}
+            disabled={loading}
+            className={styles.inputForm_input}
+            autoFocus
+            inputMode="text"
+          ></input>
+          <button
+            type="submit"
+            wideMobile
+            onClick={() => {
+              handleVerify(value);
+            }}
+            disabled={!value || loading}
+            className={styles.button}
+            style={{ width: "60px" }}
+          >
+            {loading ? (
+              <Oval
+                height={18}
+                width={18}
+                color="#000"
+                wrapperStyle={{ marginLeft: "auto", marginRight: "auto" }}
+                wrapperClass={styles.flex}
+                visible={true}
+                ariaLabel="oval-loading"
+                secondaryColor="rgb(35, 35, 35)"
+                strokeWidth={3}
+                strokeWidthSecondary={5}
+              />
+            ) : (
+              "OK"
+            )}
+          </button>
+        </div>
+      </div>
+      <div className={styles.inputForm_linkSection}>
+        {!addressRoute && (
+          <>
+            {connected ? (
+              <div
+                className={styles.link}
+                onClick={() => router.push(`/address/${account}`)}
+                style={{
+                  color: "rgba(255, 255, 255, 0.5)",
+                  textAlign: "center",
+                }}
+              >
+                or use your wallet address {getShortAddress(account, 4, 34)}
+              </div>
+            ) : (
+              <>
+                <div style={{ color: "rgba(255, 255, 255, 0.5)" }}>or</div>
+                <div onClick={() => setWaitingСonnection(true)}>
+                  <CustomConnectButton typeStyle="link" />
+                </div>
+              </>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
