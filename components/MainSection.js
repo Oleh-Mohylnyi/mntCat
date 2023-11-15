@@ -1,13 +1,9 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useAccount, useContractRead } from "wagmi";
-// import { erc721ABI } from "wagmi";
+import { useContractReads } from "wagmi";
 import Tooltip from "@material-ui/core/Tooltip";
-import Header from "./Header";
-import Footer from "./Footer";
 import InputForm from "./InputForm";
 import Modal from "./Modal";
 import SyncStepper from "./SyncStepper";
@@ -15,16 +11,16 @@ import Switch from "./Switch";
 import SwitchComingSoon from "./SwitchComingSoon";
 import Table from "./Table";
 import StatusChart from "./StatusChart";
-import { getDate } from "../utils/tools";
 import { fetchVerify } from "../utils/api";
+import { getContracts } from "../utils/contracts";
 import { providersConstants, credentialsConstants } from "../utils/constants";
 import { skeletonProvidersData } from "../utils/skeleton";
-import iconSyncMono from "../public/images/icon_sync_monocolor.svg";
-import iconRefresh from "../public/images/icon_refresh_resync.svg";
-import iconCalendar from "../public/images/icon_calendar.svg";
-import logoDexGuru from "../public/images/logoDexGuru.svg";
-import logoGitcoin from "../public/images/logoGitcoin.svg";
-import logoSnapshot from "../public/images/logoSnapshot.svg";
+// import iconSyncMono from "../public/images/icon_sync_monocolor.svg";
+// import iconRefresh from "../public/images/icon_refresh_resync.svg";
+// import iconCalendar from "../public/images/icon_calendar.svg";
+// import logoDexGuru from "../public/images/logoDexGuru.svg";
+// import logoGitcoin from "../public/images/logoGitcoin.svg";
+// import logoSnapshot from "../public/images/logoSnapshot.svg";
 import defaultCat from "../public/images/defaultCat.png";
 import styles from "../styles/Home.module.scss";
 import stylesAddress from "../styles/Address.module.scss";
@@ -51,6 +47,46 @@ const MainSection = () => {
   const [mantleJourney, setMantleJourney] = useState({});
   const router = useRouter();
   const { address } = router.query;
+
+  const providersReducer = (dataArray) => {
+    console.log("oldProviders", providers);
+    const newProviders = providers
+      .map((provider) => {
+        const dataItem = dataArray.find(
+          (item) => item.symbol === provider.symbol
+        );
+        if (
+          dataItem &&
+          (dataItem.status !== "error" || provider.status === "error")
+        ) {
+          console.log("provider updated item", {
+            ...provider,
+            ...dataItem,
+          });
+          return {
+            ...provider,
+            ...dataItem,
+          };
+        }
+        return provider;
+      })
+      .sort((a, b) => {
+        if (
+          a.sync?.byChainIds?.find((byChainId) => byChainId.chainId === 5000) &&
+          !b.sync?.byChainIds?.find((byChainId) => byChainId.chainId === 5000)
+        )
+          return -1;
+        if (
+          b.sync?.byChainIds?.find((byChainId) => byChainId.chainId === 5000) &&
+          !a.sync?.byChainIds?.find((byChainId) => byChainId.chainId === 5000)
+        )
+          return 1;
+        if (a.result === true && b.result !== true) return -1;
+        if (b.result === true && a.result !== true) return 1;
+      });
+    console.log("newProviders", newProviders);
+    setProviders(newProviders);
+  };
 
   const providerDataProcessing = (response) => {
     let resultDEX_GURU = false;
@@ -91,51 +127,35 @@ const MainSection = () => {
         return credential;
       });
       response.providers.push(...response.credentials);
-      const sortedProviders = response.providers
-        .filter(
-          (provider) =>
-            provider.issuer !== "Cheshire" &&
-            provider.symbol !== "CHAINALYSIS_SANCTIONS" &&
-            provider.symbol !== "OPIUM_API" &&
-            provider.symbol !== "OPIUM_ID" &&
-            provider.symbol !== "AGE" &&
-            provider.symbol !== "SNAPSHOT_VOTER" &&
-            !provider.symbol.startsWith("DEX_GURU") &&
-            !!providersConstants[provider.symbol] &&
-            providersConstants[provider.symbol].group !== "not for rendering"
-        )
-        .sort((a, b) => {
-          if (
-            a.sync?.byChainIds.find(
-              (byChainId) => byChainId.chainId === 5000
-            ) &&
-            !b.sync?.byChainIds.find((byChainId) => byChainId.chainId === 5000)
-          )
-            return -1;
-          if (
-            b.sync?.byChainIds.find(
-              (byChainId) => byChainId.chainId === 5000
-            ) &&
-            !a.sync?.byChainIds.find((byChainId) => byChainId.chainId === 5000)
-          )
-            return 1;
-          if (a.result === true && b.result !== true) return -1;
-          if (b.result === true && a.result !== true) return 1;
-        });
-      setProviders(sortedProviders);
+      const mappedProviders = response.providers;
+      // .filter(
+      //   (provider) =>
+      //     provider.issuer !== "Cheshire" &&
+      //     provider.symbol !== "CHAINALYSIS_SANCTIONS" &&
+      //     provider.symbol !== "OPIUM_API" &&
+      //     provider.symbol !== "OPIUM_ID" &&
+      //     provider.symbol !== "AGE" &&
+      //     provider.symbol !== "SNAPSHOT_VOTER" &&
+      //     !provider.symbol.startsWith("DEX_GURU") &&
+      //     !!providersConstants[provider.symbol] &&
+      //     providersConstants[provider.symbol].group !== "not for rendering"
+      // );
+      console.log("!!apiMappingData", mappedProviders);
+      providersReducer(mappedProviders);
     }
     setLoading(false);
   };
 
   async function fetchAddressData(campaign = "") {
     setLoading(true);
-    setCheshireImage("");
-    setProviders(skeletonProvidersData);
     fetchVerify(address, campaign)
-      .then((data) => providerDataProcessing(data))
+      .then((data) => {
+        console.log("!!!get new api data");
+        providerDataProcessing(data);
+      })
       .catch((error) => {
         console.error(error.message);
-        fetchAddressData();
+        // fetchAddressData();
         setLoading(false);
       });
   }
@@ -146,7 +166,6 @@ const MainSection = () => {
     try {
       const response = await fetch(`/api/mantlejourney/${address}`);
       const data = await response.json();
-
       if (Object.keys(data).length !== 0) {
         setMantleJourney(data);
       }
@@ -157,27 +176,45 @@ const MainSection = () => {
 
   useEffect(() => {
     if (address) {
+      setProviders(skeletonProvidersData);
+      setCheshireImage("");
       fetchAddressData();
       getAccountInfoMantle(address);
     }
   }, [address]);
 
-  // const _erc721ABI = "function balanceOf(address owner)";
-  //   const { data, isLoading, isError, isSuccess } = useContractRead({
-  //     address: "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d",
-  //     abi: _erc721ABI,
-  //     chainId: 137,
-  //     functionName: "balanceOf",
-  //     args: [address],
-  //     onSuccess() {
-  //       console.log("onSuccess:", data);
-  //     },
-  //     onSettled() {
-  //       console.log("onSettled:", data);
-  //     },
-  //   });
+  const { data } = useContractReads({
+    contracts: getContracts(address),
+    onSuccess() {
+      console.log("!!!get new contracts data");
+      const contractsData = getContracts(address);
+      const mappingData = data.map((response, index) => {
+        const resultСonverted =
+          !response.result ||
+          Number(response.result).isNaN ||
+          Number(response.result) === 0
+            ? false
+            : true;
+        const statusConverted =
+          response.status === "success"
+            ? "ok"
+            : response.status === "failure"
+            ? "error"
+            : response.status;
+        return {
+          ...response,
+          result: resultСonverted,
+          status: statusConverted,
+          symbol: contractsData[index].SYMBOL,
+        };
+      });
+      console.log("!!contractsMappingData", mappingData);
+      providersReducer(mappingData, providers);
+    },
+    onSettled() {},
+  });
 
-  function updateProviders(provider, providerSymbol, chainId) {
+  function getProvidersUpdatedSyncStatus(provider, providerSymbol, chainId) {
     return provider.map((item) => {
       if (item.symbol === providerSymbol) {
         const updatedItem = { ...item };
@@ -194,6 +231,7 @@ const MainSection = () => {
       return item;
     });
   }
+  console.log("providers", providers);
 
   return (
     <>
@@ -358,7 +396,9 @@ const MainSection = () => {
         <SyncStepper
           syncRequestData={syncRequestData}
           afterSyncAction={(providerSymbol, chainId) => {
-            setProviders(updateProviders(providers, providerSymbol, chainId));
+            setProviders(
+              getProvidersUpdatedSyncStatus(providers, providerSymbol, chainId)
+            );
             // fetchAddressData();
           }}
         />

@@ -35,6 +35,11 @@ export const skeletonProvidersData = [
     result: false,
   },
   {
+    name: "Arbitrum Odyssey",
+    symbol: "ODYSSEY",
+    result: false,
+  },
+  {
     name: "Proof of Attendance Protocol",
     symbol: "POAP",
     result: false,

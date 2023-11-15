@@ -31,7 +31,7 @@ import logoLinkedIn from "../public/images/linkedin.svg";
 // import logoGoerli from "../assets/images/logoGoerli.svg";
 // import logoPolygon from "../assets/images/logoPolygon.svg";
 // import logoFantom from "../assets/images/logoFantom.svg";
-// import logoArbitrum from "../assets/images/logoArbitrum.svg";
+import logoArbitrum from "../public/images/logoArbitrum.svg";
 // import logoCelo from "../assets/images/logoCELO.svg";
 // import logoAvalanche from "../assets/images/logoAvalanche.svg";
 import logoDexGuru from "../public/images/logoDexGuru.svg";
@@ -242,6 +242,20 @@ export const providersConstants = {
     },
     tooltip:
       "Users who are members of Zapper community are less likely to be bots or anonymous account. In some cases, this trait can be used as humanity proof.",
+    group: "none",
+  },
+  ODYSSEY: {
+    symbol: "ODYSSEY",
+    logo: logoArbitrum,
+    title: "Odyssey",
+    positiveResponse: "Has NFT",
+    negativeResponse: "No NFT",
+    baseURL: "https://opensea.io/collection/arbitrum-odyssey-nft",
+    getUrl: (address) => {
+      return `https://opensea.io/collection/arbitrum-odyssey-nft`;
+    },
+    tooltip:
+      "Users who are members of Arbitrum Oddysey community are less likely to be bots or anonymous account. In some cases, this trait can be used as humanity proof.",
     group: "none",
   },
   GITCOIN_PASSPORT: {
