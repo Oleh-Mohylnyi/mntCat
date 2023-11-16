@@ -135,6 +135,9 @@
     border: none;
     background-color: #2b2459;
     cursor: pointer;
+    &_animation {
+      transition: transform 0.5s ease-in-out;
+    }
   }
   &_slider {
     display: flex;
