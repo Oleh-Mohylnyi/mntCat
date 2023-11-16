@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useContractReads } from "wagmi";
+import { useQuery } from "@apollo/client";
+import { client, snapshotQuery } from "../utils/graphql";
 import InputForm from "./InputForm";
 import Modal from "./Modal";
 import SyncStepper from "./SyncStepper";
@@ -172,7 +174,7 @@ const MainSection = () => {
       getAccountInfoMantle(address);
     }
   }, [address]);
-  // console.log("contractsData", getContracts(address));
+
   const { data } = useContractReads({
     contracts: getContracts(address),
     onSuccess() {
@@ -206,6 +208,24 @@ const MainSection = () => {
     },
     onSettled() {},
   });
+
+  const { data: snapshotData } = useQuery(snapshotQuery(address), { client });
+  if (snapshotData) {
+    if (
+      !providers.find((provider) => provider.symbol === "SNAPSHOT_PROPOSER")
+        .result &&
+      (snapshotData.proposals.length || snapshotData.votes.length)
+    ) {
+      providersReducer([
+        {
+          name: "Snapshot: Proposer",
+          symbol: "SNAPSHOT_PROPOSER",
+          result: true,
+          status: "ok",
+        },
+      ]);
+    }
+  }
 
   function getProvidersUpdatedSyncStatus(provider, providerSymbol, chainId) {
     return provider.map((item) => {
