@@ -147,7 +147,7 @@ const InputForm = ({ loading, setLoading }) => {
           ></input>
           <button
             type="submit"
-            wideMobile
+            // wideMobile
             onClick={() => {
               handleVerify(value);
             }}

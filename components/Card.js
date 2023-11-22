@@ -19,17 +19,16 @@ const Card = ({
     <Tooltip
       title={
         <>
-          {provider.sync ||
-            (provider.issuer && (
-              <p>
-                {provider.result &&
-                provider.status !== "pending" &&
-                provider.status !== "error"
-                  ? providersConstants[provider.symbol]?.positiveResponse
-                  : providersConstants[provider.symbol]?.negativeResponse}
-              </p>
-            ))}{" "}
-          <p>{providersConstants[provider.symbol]?.tooltip}</p>
+          {(provider.sync || provider.issuer) && (
+            <p>
+              {provider.result &&
+              provider.status !== "pending" &&
+              provider.status !== "error"
+                ? providersConstants[provider.symbol]?.positiveResponse
+                : providersConstants[provider.symbol]?.negativeResponse}
+            </p>
+          )}
+          <p> {providersConstants[provider.symbol]?.tooltip}</p>
         </>
       }
       placement="bottom"

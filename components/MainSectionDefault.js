@@ -24,7 +24,7 @@ const MainSectionDefault = () => {
           <div className={stylesAddress.block_left}>
             <div className={stylesAddress.grid}>
               {skeletonProvidersData.map((provider, index) => (
-                <CardDefault provider={provider} index={index} />
+                <CardDefault provider={provider} index={index} key={index} />
               ))}
             </div>
           </div>

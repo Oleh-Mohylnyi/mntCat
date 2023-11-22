@@ -261,6 +261,7 @@ const MainSection = () => {
             <div className={stylesAddress.grid}>
               {providers.map((provider, index) => (
                 <Card
+                  key={index}
                   provider={provider}
                   index={index}
                   address={address}

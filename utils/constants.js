@@ -457,8 +457,8 @@ export const providersConstants = {
     symbol: "Telegram",
     logo: logoTelegram,
     title: "TELEGRAM",
-    positiveResponse: " has attestation from Telegram",
-    negativeResponse: " does not have attestation from Telegram",
+    positiveResponse: " Has attestation from Telegram",
+    negativeResponse: " Does not have attestation from Telegram",
     baseURL: "https://telegram.org",
     getUrl: (address) => {
       return `https://telegram.org`;
@@ -471,8 +471,8 @@ export const providersConstants = {
     symbol: "Google",
     logo: logoGoogle,
     title: "GOOGLE",
-    positiveResponse: " has attestation from Google",
-    negativeResponse: " does not have attestation from Google",
+    positiveResponse: " Has attestation from Google",
+    negativeResponse: " Does not have attestation from Google",
     baseURL: "https://www.google.com/",
     getUrl: (address) => {
       return `https://www.google.com/`;
@@ -485,8 +485,8 @@ export const providersConstants = {
     symbol: "Twitter",
     logo: logoTwitter,
     title: "TWITTER",
-    positiveResponse: " has attestation from Twitter",
-    negativeResponse: " does not have attestation from Twitter",
+    positiveResponse: " Has attestation from Twitter",
+    negativeResponse: " Does not have attestation from Twitter",
     baseURL: "https://twitter.com/",
     getUrl: (address) => {
       return `https://twitter.com/`;
@@ -499,8 +499,8 @@ export const providersConstants = {
     symbol: "Github",
     logo: logoGitHub,
     title: "GITHUB",
-    positiveResponse: " has attestation from Github",
-    negativeResponse: " does not have attestation from Github",
+    positiveResponse: " Has attestation from Github",
+    negativeResponse: " Does not have attestation from Github",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified GitHub account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -510,8 +510,8 @@ export const providersConstants = {
     symbol: "Facebook",
     logo: logoFacebook,
     title: "FACEBOOK",
-    positiveResponse: " has attestation from Facebook",
-    negativeResponse: " does not have attestation from Facebook",
+    positiveResponse: " Has attestation from Facebook",
+    negativeResponse: " Does not have attestation from Facebook",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified Facebook account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -521,8 +521,8 @@ export const providersConstants = {
     symbol: "Brightid",
     logo: logoBrightID,
     title: "BRIGHTID",
-    positiveResponse: " has attestation from Brightid",
-    negativeResponse: " does not have attestation from Brightid",
+    positiveResponse: " Has attestation from Brightid",
+    negativeResponse: " Does not have attestation from Brightid",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified BrightID account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -532,8 +532,8 @@ export const providersConstants = {
     symbol: "Discord",
     logo: logoDiscord,
     title: "DISCORD",
-    positiveResponse: " has attestation from Discord",
-    negativeResponse: " does not have attestation from Discord",
+    positiveResponse: " Has attestation from Discord",
+    negativeResponse: " Does not have attestation from Discord",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified Discord account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -543,8 +543,8 @@ export const providersConstants = {
     symbol: "Linkedin",
     logo: logoLinkedIn,
     title: "LINKEDIN",
-    positiveResponse: " has attestation from Linkedin",
-    negativeResponse: " does not have attestation from Linkedin",
+    positiveResponse: " Has attestation from Linkedin",
+    negativeResponse: " Does not have attestation from Linkedin",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified Linkedin account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -568,8 +568,8 @@ export const credentialsConstants = {
     symbol: "Telegram",
     logo: logoTelegram,
     title: "TELEGRAM",
-    positiveResponse: " has attestation from Telegram",
-    negativeResponse: " does not have attestation from Telegram",
+    positiveResponse: " Has attestation from Telegram",
+    negativeResponse: " Does not have attestation from Telegram",
     baseURL: "https://telegram.org",
     getUrl: (address) => {
       return `https://telegram.org`;
@@ -582,8 +582,8 @@ export const credentialsConstants = {
     symbol: "Google",
     logo: logoGoogle,
     title: "GOOGLE",
-    positiveResponse: " has attestation from Google",
-    negativeResponse: " does not have attestation from Google",
+    positiveResponse: " Has attestation from Google",
+    negativeResponse: " Does not have attestation from Google",
     baseURL: "https://www.google.com/",
     getUrl: (address) => {
       return `https://www.google.com/`;
@@ -596,8 +596,8 @@ export const credentialsConstants = {
     symbol: "Twitter",
     logo: logoTwitter,
     title: "TWITTER",
-    positiveResponse: " has attestation from Twitter",
-    negativeResponse: " does not have attestation from Twitter",
+    positiveResponse: " Has attestation from Twitter",
+    negativeResponse: " Does not have attestation from Twitter",
     baseURL: "https://twitter.com/",
     getUrl: (address) => {
       return `https://twitter.com/`;
@@ -610,8 +610,8 @@ export const credentialsConstants = {
     symbol: "Github",
     logo: logoGitHub,
     title: "GITHUB",
-    positiveResponse: " has attestation from Github",
-    negativeResponse: " does not have attestation from Github",
+    positiveResponse: " Has attestation from Github",
+    negativeResponse: " Does not have attestation from Github",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified GitHub account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -621,8 +621,8 @@ export const credentialsConstants = {
     symbol: "Facebook",
     logo: logoFacebook,
     title: "FACEBOOK",
-    positiveResponse: " has attestation from Facebook",
-    negativeResponse: " does not have attestation from Facebook",
+    positiveResponse: " Has attestation from Facebook",
+    negativeResponse: " Does not have attestation from Facebook",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified Facebook account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -632,8 +632,8 @@ export const credentialsConstants = {
     symbol: "Brightid",
     logo: logoBrightID,
     title: "BRIGHTID",
-    positiveResponse: " has attestation from Brightid",
-    negativeResponse: " does not have attestation from Brightid",
+    positiveResponse: " Has attestation from Brightid",
+    negativeResponse: " Does not have attestation from Brightid",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified BrightID account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -643,8 +643,8 @@ export const credentialsConstants = {
     symbol: "Discord",
     logo: logoDiscord,
     title: "DISCORD",
-    positiveResponse: " has attestation from Discord",
-    negativeResponse: " does not have attestation from Discord",
+    positiveResponse: " Has attestation from Discord",
+    negativeResponse: " Does not have attestation from Discord",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified Discord account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
@@ -654,8 +654,8 @@ export const credentialsConstants = {
     symbol: "Linkedin",
     logo: logoLinkedIn,
     title: "LINKEDIN",
-    positiveResponse: " has attestation from Linkedin",
-    negativeResponse: " does not have attestation from Linkedin",
+    positiveResponse: " Has attestation from Linkedin",
+    negativeResponse: " Does not have attestation from Linkedin",
     baseURL: "https://passport.gitcoin.co/",
     tooltip:
       "Verified Linkedin account. Proof of ownership of data is provided using cryptography, while keeping the data private.",
