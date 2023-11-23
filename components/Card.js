@@ -96,12 +96,9 @@ const Card = ({
                   </div>
                 );
               })
-            ) : (
-              <SwitchDefault
-                preview={provider.status || provider.issuer ? false : true}
-                animation={false}
-              />
-            )}
+            ) : provider.status ? (
+              <SwitchDefault preview={false} animation={false} />
+            ) : null}
           </div>
         </div>
       </div>

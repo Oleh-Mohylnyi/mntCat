@@ -1,9 +1,7 @@
-export async function fetchVerify(address, campaign) {
+export async function fetchKyCatData(address) {
   try {
     const response = await fetch(
-      `https://api.knowyourcat.id/v1/${address}${
-        campaign ? `?campaign=${campaign}` : ""
-      } `,
+      `https://api.knowyourcat.id/v1/${address}`,
       { headers: { "X-NO-CACHE": true } }
     );
 
