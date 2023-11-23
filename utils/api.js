@@ -15,6 +15,29 @@ export async function fetchKyCatData(address) {
   }
 }
 
+export async function fetchGitcoinData(address) {
+  try {
+    const response = await fetch(
+      `https://api.scorer.gitcoin.co/registry/stamps/${address}`,
+      {
+        method: "GET",
+        headers: {
+          "X-API-Key": process.env.GITCOIN_API_KEY,
+          accept: "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Not found");
+    }
+
+    return await response.json();
+  } catch (error) {
+    return Promise.reject(error);
+  }
+}
+
 export async function fetchCategoryByName(address, category) {
   const response = await fetch(
     `https://api.knowyourcat.id/v1/${address}/categories?category=${category}`

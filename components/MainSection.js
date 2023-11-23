@@ -10,7 +10,7 @@ import SyncStepper from "./SyncStepper";
 import Card from "./Card";
 import Table from "./Table";
 import StatusChart from "./StatusChart";
-import { fetchKyCatData } from "../utils/api";
+import { fetchKyCatData, fetchGitcoinData } from "../utils/api";
 import { getContracts } from "../utils/contracts";
 import { providersConstants } from "../utils/constants";
 import { skeletonProvidersData } from "../utils/skeleton";
@@ -42,27 +42,34 @@ const MainSection = () => {
   const { address } = router.query;
 
   const kyCatDataUpdate = (kyCatData) => {
-    kyCatData.providers.map((item, index) => {
+    let resultDEX_GURU = false;
+    const mappingKyCatData = kyCatData.providers.map((item, index) => {
       // if (item.symbol === "SNAPSHOT_VOTER" && item.result) {
       //   const ind = response.providers.findIndex(
       //     (el) => el.symbol === "SNAPSHOT_PROPOSER"
       //   );
       //   response.providers[ind].result = true;
       // }
-      let resultDEX_GURU = false;
       if (item.symbol.startsWith("DEX_GURU") && !resultDEX_GURU) {
         resultDEX_GURU = true;
-        kyCatData.providers[index].symbol = "_DEX_GURU";
+        return {
+          ...item,
+          symbol: "_DEX_GURU",
+        };
       }
-      if (item.symbol.startsWith("DEX_GURU") && resultDEX_GURU && item.result) {
-        const ind = kyCatData.providers.findIndex(
-          (el) => el.symbol === "_DEX_GURU"
-        );
-        kyCatData.providers[ind].result = true;
-      }
-      return null;
+      // if (item.symbol.startsWith("DEX_GURU") && resultDEX_GURU) {
+      //   return;
+      // }
+      // if (item.symbol.startsWith("DEX_GURU") && resultDEX_GURU && item.result) {
+      //   const index = mappingKyCatData.findIndex(
+      //     (el) => el.symbol === "_DEX_GURU"
+      //   );
+      //   mappingKyCatData[index].result = true;
+      //   return item;
+      // }
+      return item;
     });
-    kyCatData.credentials.map((credential) => {
+    const mappingCredential = kyCatData.credentials.map((credential) => {
       if (credential.hasOwnProperty("provider")) {
         credential.symbol = credential.provider;
         credential.status = "ok";
@@ -70,8 +77,8 @@ const MainSection = () => {
       }
       return credential;
     });
-    kyCatData.providers.push(...kyCatData.credentials);
-    kyCatData.providers.filter(
+    mappingKyCatData.push(...mappingCredential);
+    const filteredKyCatData = mappingKyCatData.filter(
       (provider) =>
         provider.issuer !== "Cheshire" &&
         provider.symbol !== "CHAINALYSIS_SANCTIONS" &&
@@ -84,10 +91,10 @@ const MainSection = () => {
         !!providersConstants[provider.symbol] &&
         providersConstants[provider.symbol].group !== "not for rendering"
     );
-    setProviders((prev) =>
-      prev
-        .map((provider) => {
-          const dataItem = kyCatData.providers.find(
+    setProviders(
+      (prev) =>
+        prev.map((provider) => {
+          const dataItem = filteredKyCatData.find(
             (item) => item.symbol === provider.symbol
           );
           return dataItem &&
@@ -98,24 +105,24 @@ const MainSection = () => {
               }
             : provider;
         })
-        // .sort((a, b) => {
-        //   if (
-        //     a.sync?.byChainIds?.find(
-        //       (byChainId) => byChainId.chainId === 5000
-        //     ) &&
-        //     !b.sync?.byChainIds?.find((byChainId) => byChainId.chainId === 5000)
-        //   )
-        //     return -1;
-        //   if (
-        //     b.sync?.byChainIds?.find(
-        //       (byChainId) => byChainId.chainId === 5000
-        //     ) &&
-        //     !a.sync?.byChainIds?.find((byChainId) => byChainId.chainId === 5000)
-        //   )
-        //     return 1;
-        //   if (a.result === true && b.result !== true) return -1;
-        //   if (b.result === true && a.result !== true) return 1;
-        // })
+      // .sort((a, b) => {
+      //   if (
+      //     a.sync?.byChainIds?.find(
+      //       (byChainId) => byChainId.chainId === 5000
+      //     ) &&
+      //     !b.sync?.byChainIds?.find((byChainId) => byChainId.chainId === 5000)
+      //   )
+      //     return -1;
+      //   if (
+      //     b.sync?.byChainIds?.find(
+      //       (byChainId) => byChainId.chainId === 5000
+      //     ) &&
+      //     !a.sync?.byChainIds?.find((byChainId) => byChainId.chainId === 5000)
+      //   )
+      //     return 1;
+      //   if (a.result === true && b.result !== true) return -1;
+      //   if (b.result === true && a.result !== true) return 1;
+      // })
     );
   };
 
@@ -146,6 +153,52 @@ const MainSection = () => {
       });
   }
 
+  async function getGitcoinData(address) {
+    fetchGitcoinData(address)
+      .then((data) => {
+        console.log("!!!get Gitcoin data", data);
+        let mappingData = [];
+        skeletonProvidersData.map((provider) => {
+          if (provider.issuer === "Gitcoin") {
+            return data.items.find(
+              (stamp) =>
+                provider.symbol === stamp.credential.credentialSubject.provider
+            )
+              ? mappingData.push({
+                  ...provider,
+                  result: true,
+                  status: "ok",
+                })
+              : mappingData.push({
+                  ...provider,
+                  result: false,
+                  status: "ok",
+                });
+          }
+        });
+        console.log("!!gitcoinMappingData", mappingData);
+        return mappingData;
+      })
+      .then((data) => {
+        setProviders((prev) =>
+          prev.map((provider) => {
+            const dataItem = data.find(
+              (item) => item.symbol === provider.symbol
+            );
+            return dataItem
+              ? {
+                  ...provider,
+                  ...dataItem,
+                }
+              : provider;
+          })
+        );
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }
+
   async function getAccountInfoMantle(address) {
     if (!address) return;
     setMantleJourney({});
@@ -165,6 +218,7 @@ const MainSection = () => {
       setProviders(skeletonProvidersData);
       setCheshireImage("");
       getKyCatData();
+      getGitcoinData(address);
       getAccountInfoMantle(address);
     }
   }, [address]);

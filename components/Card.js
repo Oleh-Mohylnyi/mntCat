@@ -4,7 +4,10 @@ import Link from "next/link";
 import Tooltip from "@material-ui/core/Tooltip";
 import Switch from "./Switch";
 import SwitchDefault from "./SwitchDefault";
-import { providersConstants } from "../utils/constants";
+import {
+  providersConstants,
+  issuersCredentialConstants,
+} from "../utils/constants";
 import styles from "../styles/Home.module.scss";
 import stylesAddress from "../styles/Address.module.scss";
 
@@ -54,15 +57,28 @@ const Card = ({
             target="_blank"
             className={stylesAddress.card_link}
           >
-            <div className={styles.flex}>
-              {providersConstants[provider.symbol]?.logo && (
-                <Image
-                  src={providersConstants[provider.symbol]?.logo}
-                  alt={`logo ${provider.name}`}
-                  height={36}
-                  width={36}
-                />
-              )}
+            <div className={stylesAddress.card_flex}>
+              <div className={stylesAddress.card_thumb}>
+                {providersConstants[provider.symbol]?.logo && (
+                  <>
+                    <Image
+                      src={providersConstants[provider.symbol]?.logo}
+                      alt={`logo ${provider.name}`}
+                      height={36}
+                      width={36}
+                    />
+                    {provider.issuer && (
+                      <Image
+                        src={issuersCredentialConstants[provider.issuer]?.logo}
+                        className={stylesAddress.card_label}
+                        alt={`logo ${provider.issuer}`}
+                        height={18}
+                        width={18}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
               <h2 style={{ margin: "0 6px" }}>
                 {providersConstants[provider.symbol].title}
               </h2>

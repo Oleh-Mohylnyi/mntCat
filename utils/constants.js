@@ -55,7 +55,7 @@ import logoSnapshot from "../public/images/logoSnapshot.svg";
 // import logoOptimismMonochrome from "../assets/images/optimism.svg";
 import logoTelegram from "../public/images/logo_telegram.svg";
 import logoCoinbase from "../public/images/logoCoinbase.svg";
-// import logoKyCat from "../assets/images/logo_knowyourcat.png";
+import logoKyCat from "../public/images/logo_knowyourcat.svg";
 // import logoZkSync from "../public/images/logoZkSync.svg";
 import logoMantleTestnet from "../public/images/logoMantle.svg";
 import logoMantle from "../public/images/logoMantle.svg";
@@ -554,7 +554,7 @@ export const providersConstants = {
 
 export const issuersCredentialConstants = {
   Cheshire: {
-    // logo: logoKyCat,
+    logo: logoKyCat,
     title: "KyCat",
   },
   Gitcoin: {
@@ -801,9 +801,3 @@ export const networksConstants = {
   },
 };
 
-export const spacialMintCampaigns = [
-  "sozuhaus-special",
-  "mantle-special",
-  "ethcc2023-special",
-  "zkSync-special",
-];

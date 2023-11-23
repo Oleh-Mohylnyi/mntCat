@@ -58,35 +58,42 @@ export const skeletonProvidersData = [
     name: "Google",
     symbol: "Google",
     result: false,
+    issuer: "Gitcoin",
   },
   {
     name: "Twitter",
     symbol: "Twitter",
     result: false,
+    issuer: "Gitcoin",
   },
   {
     name: "Github",
     symbol: "Github",
     result: false,
+    issuer: "Gitcoin",
   },
   {
     name: "Facebook",
     symbol: "Facebook",
     result: false,
+    issuer: "Gitcoin",
   },
   {
     name: "Brightid",
     symbol: "Brightid",
     result: false,
+    issuer: "Gitcoin",
   },
   {
     name: "Discord",
     symbol: "Discord",
     result: false,
+    issuer: "Gitcoin",
   },
   {
     name: "Linkedin",
     symbol: "Linkedin",
     result: false,
+    issuer: "Gitcoin",
   },
 ];
