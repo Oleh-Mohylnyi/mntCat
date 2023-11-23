@@ -51,7 +51,6 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
       setActiveStep(4);
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       afterSyncAction(syncRequestData.providerSymbol, syncRequestData.chainId);
-      // setTimeout(() => afterSyncAction(), 3000);
       setTransactionHash(data.hash);
     },
   });
