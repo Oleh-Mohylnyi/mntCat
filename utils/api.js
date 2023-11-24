@@ -38,22 +38,28 @@ export async function fetchGitcoinData(address) {
   }
 }
 
-export async function fetchCategoryByName(address, category) {
-  const response = await fetch(
-    `https://api.knowyourcat.id/v1/${address}/categories?category=${category}`
-  );
-  return response.ok
-    ? await response.json()
-    : Promise.reject(new Error("Not found"));
-}
-export async function fetchCategoryByAddress(address, category, chain) {
-  const chainId = chain ? chain : "11155111";
-  const response = await fetch(
-    `https://api.knowyourcat.id/v1/${address}/categories/${chainId}/${category}`
-  );
-  return response.ok
-    ? await response.json()
-    : Promise.reject(new Error("Not found"));
+export async function fetchDexGuruData(address) {
+  try {
+    const response = await fetch(
+      `https://api.dev.dex.guru/v1/chain/wallets/${address}`,
+      {
+        method: "GET",
+        headers: {
+          "api-key": process.env.DEX_GURU_API_KEY,
+          accept: "application/json",
+          "User-Agent": "JavaScript DexGuru SDK v1.0.8",
+        },
+      }
+    );
+
+    if (!response.ok && response.detail === "Wallet not found") {
+      throw new Error("Not found");
+    }
+
+    return await response.json();
+  } catch (error) {
+    return Promise.reject(error);
+  }
 }
 
 export async function fetchCatImgUrl(address, campaign) {
@@ -189,37 +195,3 @@ export async function requestSyncData(address, sourceId, chainId) {
   return Promise.reject(response.error);
 }
 
-export async function requestVCData(address, claim) {
-  const response = await fetch(
-    `https://api.knowyourcat.id/v1/credentials/issue`,
-    {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        address,
-        claim,
-      }),
-    }
-  );
-
-  if (response.ok) {
-    return await response.json();
-  }
-
-  return Promise.reject(response.error);
-}
-
-export async function requestVCCallData(address, sourceId, chainId) {
-  const response = await fetch(
-    `https://api.knowyourcat.id/v1/credentials/calldata?address=${address}&sourceId=${sourceId}&chainId=${chainId}`
-  );
-
-  if (response.ok) {
-    return await response.json();
-  }
-
-  return Promise.reject(response.error);
-}

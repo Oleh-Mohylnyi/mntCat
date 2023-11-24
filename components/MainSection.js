@@ -10,7 +10,11 @@ import SyncStepper from "./SyncStepper";
 import Card from "./Card";
 import Table from "./Table";
 import StatusChart from "./StatusChart";
-import { fetchKyCatData, fetchGitcoinData } from "../utils/api";
+import {
+  fetchKyCatData,
+  fetchGitcoinData,
+  fetchDexGuruData,
+} from "../utils/api";
 import { getContracts } from "../utils/contracts";
 import { providersConstants } from "../utils/constants";
 import { skeletonProvidersData } from "../utils/skeleton";
@@ -50,13 +54,13 @@ const MainSection = () => {
       //   );
       //   response.providers[ind].result = true;
       // }
-      if (item.symbol.startsWith("DEX_GURU") && !resultDEX_GURU) {
-        resultDEX_GURU = true;
-        return {
-          ...item,
-          symbol: "_DEX_GURU",
-        };
-      }
+      // if (item.symbol.startsWith("DEX_GURU") && !resultDEX_GURU) {
+      //   resultDEX_GURU = true;
+      //   return {
+      //     ...item,
+      //     symbol: "_DEX_GURU",
+      //   };
+      // }
       // if (item.symbol.startsWith("DEX_GURU") && resultDEX_GURU) {
       //   return;
       // }
@@ -176,7 +180,6 @@ const MainSection = () => {
                 });
           }
         });
-        console.log("!!gitcoinMappingData", mappingData);
         return mappingData;
       })
       .then((data) => {
@@ -193,6 +196,38 @@ const MainSection = () => {
               : provider;
           })
         );
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  }
+
+  async function getDexGuruData(address) {
+    fetchDexGuruData(address)
+      .then((data) => {
+        console.log("!!!get DEX_GURU data", data);
+        if (data) {
+
+          const dexGuruResult = data.category ? true : false;
+          const dexGuruDataPrepared = [
+            {
+              name: "Dex.guru",
+              symbol: "_DEX_GURU",
+              result: dexGuruResult,
+              status: "ok",
+            },
+          ];
+          setProviders((prev) =>
+            prev.map((provider) =>
+              provider.symbol === dexGuruDataPrepared[0].symbol
+                ? {
+                    ...provider,
+                    ...dexGuruDataPrepared[0],
+                  }
+                : provider
+            )
+          );
+        }
       })
       .catch((error) => {
         console.error(error.message);
@@ -219,6 +254,7 @@ const MainSection = () => {
       setCheshireImage("");
       getKyCatData();
       getGitcoinData(address);
+      getDexGuruData(address);
       getAccountInfoMantle(address);
     }
   }, [address]);
@@ -269,21 +305,20 @@ const MainSection = () => {
   });
 
   const { data: snapshotData } = useQuery(snapshotQuery(address), { client });
-  if (
-    snapshotData &&
-    (snapshotData.proposals.length || snapshotData.votes.length)
-  ) {
-    if (
-      providers.find((provider) => provider.symbol === "SNAPSHOT_PROPOSER") &&
-      !providers.find((provider) => provider.symbol === "SNAPSHOT_PROPOSER")
-        .result
-    ) {
+  if (snapshotData) {
+    const providerIndex = providers.findIndex(
+      (provider) => provider.symbol === "SNAPSHOT_PROPOSER"
+    );
+    if (providerIndex && !providers[providerIndex].status) {
       console.log("!!!get snapshot data:", snapshotData);
       const snapshotDataPrepared = [
         {
           name: "Snapshot: Proposer",
           symbol: "SNAPSHOT_PROPOSER",
-          result: true,
+          result:
+            snapshotData.proposals.length || snapshotData.votes.length
+              ? true
+              : false,
           status: "ok",
         },
       ];
@@ -322,8 +357,6 @@ const MainSection = () => {
       )
     );
   }
-
-  console.log("providers", providers);
 
   return (
     <>
