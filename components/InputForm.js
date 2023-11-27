@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
-import { providers, utils } from "ethers";
+import { isAddress } from "viem";
 import { fetchEnsAddress } from "@wagmi/core";
 import { useAccount } from "wagmi";
 import { Oval } from "react-loader-spinner";
@@ -33,62 +33,44 @@ const InputForm = ({ loading, setLoading }) => {
       try {
         setLoading(true);
         let value = inputValue.toLowerCase();
-        //   if (value === store.address) {
-        //     setTimeout(() => setLoading(false), 600);
-        //     setAddress("");
-        //     return getAddressData(value, specialMintQuery);
-        //   }
-        //   if (
-        //     !value.endsWith(".eth") &&
-        //     !value.endsWith(".co") &&
-        //     !value.endsWith(".lens") &&
-        //     !value.endsWith(".xyz") &&
-        //     value.length < 21
-        //   ) {
-        //     value = value + ".eth";
-        //   }
-        //   if (
-        //     value.endsWith(".eth") ||
-        //     value.endsWith(".co") ||
-        //     value.endsWith(".lens") ||
-        //     value.endsWith(".xyz")
-        //   ) {
-        //     value = await fetchEnsAddress({
-        //       name: value,
-        //       chainId: 1,
-        //     });
-        // const provider = new providers.JsonRpcProvider(
-        //   "https://mainnet.infura.io/v3/723fae493ef5485381f4974be919da80"
-        // );
-        // const addr = address.endsWith(".lens") ? `${value}.xyz` : value;
-        // value = await provider.resolveName(addr);
-        //   }
-        //   if (!utils.isAddress(value)) {
-        //     setLoading(false);
-        //     return setInvalidAddress(true);
-        //   }
-        //   if (value === store.address) {
-        //     setTimeout(() => setLoading(false), 600);
-        //     setAddress("");
-        //     return getAddressData(value, specialMintQuery);
-        //   }
 
-        //   setLoading(false);
-        //   setAddress("");
-        //   store.setProviders([]);
-        //   store.setCategories([]);
+        if (
+          !value.endsWith(".eth") &&
+          !value.endsWith(".co") &&
+          !value.endsWith(".lens") &&
+          !value.endsWith(".xyz") &&
+          value.length < 21
+        ) {
+          value = value + ".eth";
+        }
+        if (
+          value.endsWith(".eth") ||
+          value.endsWith(".co") ||
+          value.endsWith(".lens") ||
+          value.endsWith(".xyz")
+        ) {
+          try {
+            value = await fetchEnsAddress({
+              name: value,
+              chainId: 1,
+            });
+            if (!isAddress(value)) {
+              setLoading(false);
+              return setInvalidAddress(true);
+            }
+            setValue("");
+            setPlaceholder(value);
+          } catch {}
+        }
+
+        if (!isAddress(value)) {
+          setLoading(false);
+          return setInvalidAddress(true);
+        }
+
         setPlaceholder(value);
         router.push(`/address/${value}`);
-        //   if (value !== store.address) {
-        //     store.deleteCheshireImage();
-        //   }
-        // store.setAddress(value);
-        //   if (pageRoute === "address" || pageRoute === "home") {
-        //     return history.replace(`/address/${value}${specialMintQuery}`);
-        //   }
-        //   if (pageRoute === "activities") {
-        //     return history.replace(`/activities/${value}${specialMintQuery}`);
-        //   }
+        setValue("");
 
         setLoading(false);
       } catch {
@@ -114,12 +96,6 @@ const InputForm = ({ loading, setLoading }) => {
     document.addEventListener("keydown", keyPress);
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
-
-  useEffect(() => {
-    if (addressRoute) {
-      setPlaceholder(addressRoute);
-    }
-  }, [addressRoute]);
 
   useEffect(() => {
     setConnected(isConnected);

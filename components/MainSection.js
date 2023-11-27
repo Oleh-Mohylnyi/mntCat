@@ -46,7 +46,7 @@ const MainSection = () => {
   const { address } = router.query;
 
   const kyCatDataUpdate = (kyCatData) => {
-    let resultDEX_GURU = false;
+    // let resultDEX_GURU = false;
     const mappingKyCatData = kyCatData.providers.map((item, index) => {
       // if (item.symbol === "SNAPSHOT_VOTER" && item.result) {
       //   const ind = response.providers.findIndex(
@@ -73,15 +73,15 @@ const MainSection = () => {
       // }
       return item;
     });
-    const mappingCredential = kyCatData.credentials.map((credential) => {
-      if (credential.hasOwnProperty("provider")) {
-        credential.symbol = credential.provider;
-        credential.status = "ok";
-        delete credential.provider;
-      }
-      return credential;
-    });
-    mappingKyCatData.push(...mappingCredential);
+    // const mappingCredential = kyCatData.credentials.map((credential) => {
+    //   if (credential.hasOwnProperty("provider")) {
+    //     credential.symbol = credential.provider;
+    //     credential.status = "ok";
+    //     delete credential.provider;
+    //   }
+    //   return credential;
+    // });
+    // mappingKyCatData.push(...mappingCredential);
     const filteredKyCatData = mappingKyCatData.filter(
       (provider) =>
         provider.issuer !== "Cheshire" &&
@@ -207,7 +207,6 @@ const MainSection = () => {
       .then((data) => {
         console.log("!!!get DEX_GURU data", data);
         if (data) {
-
           const dexGuruResult = data.category ? true : false;
           const dexGuruDataPrepared = [
             {
