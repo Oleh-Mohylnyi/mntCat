@@ -24,12 +24,12 @@ import logoFacebook from "../public/images/facebook.svg";
 import logoBrightID from "../public/images/brightid.svg";
 import logoDiscord from "../public/images/discordColor.svg";
 import logoLinkedIn from "../public/images/linkedin.svg";
-// import logoEth from "../assets/images/logoETH.svg";
+import logoEth from "../public/images/logoETH.svg";
 // import logoOptimism from "../assets/images/logoOptimism.svg";
 // import logoBSC from "../assets/images/logoBSC.svg";
-// import logoGnosis from "../assets/images/logoGnosis.svg";
-// import logoGoerli from "../assets/images/logoGoerli.svg";
-// import logoPolygon from "../assets/images/logoPolygon.svg";
+// import logoGnosis from "../public/images/logoGnosis.svg";
+import logoGoerli from "../public/images/logoGoerli.svg";
+import logoPolygon from "../public/images/logoPolygon.svg";
 // import logoFantom from "../assets/images/logoFantom.svg";
 import logoArbitrum from "../public/images/logoArbitrum.svg";
 // import logoCelo from "../assets/images/logoCELO.svg";
@@ -44,7 +44,7 @@ import iconSkeleton from "../public/images/icon_skeleton.svg";
 import logoSnapshot from "../public/images/logoSnapshot.svg";
 // import iconVoter from "../assets/images/icon_voter.svg";
 // import iconProposer from "../assets/images/icon_proposer.svg";
-// import logoSepolia from "../assets/images/logoSepolia.svg";
+import logoSepolia from "../public/images/logoSepolia.svg";
 // import imageZkBob from "../assets/images/imageZkBob.svg";
 // import iconZkBob from "../assets/images/iconZkBob.svg";
 // import logoGnosisMonochrome from "../assets/images/Gnosis.svg";
@@ -778,6 +778,76 @@ export const categoriesConstants = {
 };
 
 export const networksConstants = {
+  // 1: {
+  //   id: 1,
+  //   name: "Ethereum",
+  //   explorerURL: "https://etherscan.io/",
+  //   openSeaNftViewURL:
+  //     "https://opensea.io/assets/ethereum/0x276086a6987d3b27c3e8b693a6b295ebe4bec843/",
+  //   getNftUrl: (tokenID) => {
+  //     return `https://etherscan.io/nft/0x276086a6987d3b27c3e8b693a6b295ebe4bec843/${tokenID}`;
+  //   },
+  //   logo: logoEth,
+  // },
+  // 100: {
+  //   id: 100,
+  //   name: "Gnosis",
+  //   explorerURL: "https://gnosisscan.io/",
+  //   getNftUrl: (tokenID) => {
+  //     return `https://gnosisscan.io/nft/0x276086a6987d3b27c3e8b693a6b295ebe4bec843/${tokenID}`;
+  //   },
+  //   logo: logoGnosis,
+  //   logoMonochrome: logoGnosisMonochrome,
+  // },
+  5: {
+    id: 5,
+    name: "Goerli",
+    explorerURL: "https://goerli.etherscan.io/",
+    getNftUrl: (tokenID) => {
+      return `https://goerli.etherscan.io/token/0x190D936c25Ea1458A9A021Fb218468e4a5e1f795?a=${tokenID}$#inventory`;
+    },
+    logo: logoGoerli,
+    type: "test",
+  },
+  137: {
+    id: 137,
+    name: "Polygon",
+    explorerURL: "https://polygonscan.com/",
+    openSeaNftViewURL:
+      "https://opensea.io/assets/matic/0x276086a6987d3b27c3e8b693a6b295ebe4bec843/",
+    getNftUrl: (tokenID) => {
+      return `https://polygonscan.com/nft/0x276086a6987d3b27c3e8b693a6b295ebe4bec843/${tokenID}`;
+    },
+    logo: logoPolygon,
+  },
+  11155111: {
+    id: 11155111,
+    name: "Sepolia",
+    explorerURL: "https://sepolia.etherscan.io/",
+    getNftUrl: (tokenID) => {
+      return `https://sepolia.etherscan.io/token/0x190D936c25Ea1458A9A021Fb218468e4a5e1f795?a=${tokenID}$#inventory`;
+    },
+    logo: logoSepolia,
+    // type: "test",
+  },
+  // 10: {
+  //   id: 10,
+  //   name: "Optimism",
+  //   explorerURL: "https://optimistic.etherscan.io/",
+  //   getNftUrl: (tokenID) => {
+  //     return `https://optimistic.etherscan.io/token/`;
+  //   },
+  //   logo: logoOptimism,
+  // },
+  // 324: {
+  //   id: 324,
+  //   name: "zkSync",
+  //   explorerURL: "https://explorer.zksync.io/",
+  //   getNftUrl: (tokenID) => {
+  //     return `https://explorer.zksync.io/token/`;
+  //   },
+  //   logo: logoZkSync,
+  // },
   5000: {
     id: 5000,
     name: "Mantle",
@@ -786,7 +856,6 @@ export const networksConstants = {
       return `https://explorer.mantle.xyz/token/`;
     },
     logo: logoMantle,
-    logoMonochrome: logoMantle,
   },
   5001: {
     id: 5001,
@@ -796,7 +865,6 @@ export const networksConstants = {
       return `https://explorer.testnet.mantle.xyz/token/`;
     },
     logo: logoMantleTestnet,
-    logoMonochrome: logoMantleTestnet,
     type: "test",
   },
 };

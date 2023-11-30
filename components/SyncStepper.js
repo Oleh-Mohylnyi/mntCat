@@ -155,7 +155,7 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
           });
         }}
         className={styles.button}
-        style={{ width: "160px", marginTop: "16px" }}
+        style={{ width: "160px", marginTop: "8px" }}
         disabled={
           activeStep === 0 ||
           status === "loading" ||
@@ -223,7 +223,7 @@ function SyncStepper({ syncRequestData, afterSyncAction }) {
             </div>
             <div className={stylesAddress.stepper_body}>
               <h2>Connect Wallet</h2>
-              <div style={{ marginTop: "16px" }}>
+              <div style={{ marginTop: "8px" }}>
                 {activeStep === 0 ? (
                   <CustomConnectButton />
                 ) : (

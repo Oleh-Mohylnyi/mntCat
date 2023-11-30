@@ -62,7 +62,7 @@ export async function fetchDexGuruData(address) {
   }
 }
 
-export async function fetchCatImgUrl(address, campaign) {
+export async function fetchKyCatNft(address, campaign) {
   const response = await fetch(
     `https://api.knowyourcat.id/v1/${address}/cheshire${
       campaign ? `?campaign=${campaign}` : ""
@@ -120,10 +120,8 @@ export async function requestMint({
   address,
   // signature,
   selfMint,
-  chainId,
-  campaign,
+  chainId
 }) {
-  const campaignValue = campaign ? campaign : "";
   const response = await fetch(`https://api.knowyourcat.id/v1/nfts/mint`, {
     method: "POST",
     headers: {
@@ -135,7 +133,7 @@ export async function requestMint({
       // signature,
       selfMint,
       chainId,
-      campaign: campaignValue,
+      campaign: "",
     }),
   });
 
@@ -170,18 +168,6 @@ export async function requestMintSpecialNft({ address, chainId, campaign }) {
   }
   return Promise.reject(response.json());
 }
-
-// export async function requestSignMessage() {
-//   const response = await fetch(
-//     `${process.env.REACT_APP_API_BASE_URL}/v1/nfts/messageToSign`
-//   );
-
-//   if (response.ok) {
-//     return await response.json();
-//   }
-
-//   return Promise.reject(response.error);
-// }
 
 export async function requestSyncData(address, sourceId, chainId) {
   const response = await fetch(

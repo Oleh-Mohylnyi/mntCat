@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useContractReads } from "wagmi";
@@ -10,10 +10,12 @@ import SyncStepper from "./SyncStepper";
 import Card from "./Card";
 import Table from "./Table";
 import StatusChart from "./StatusChart";
+import MintStepper from "./MintStepper";
 import {
   fetchKyCatData,
   fetchGitcoinData,
   fetchDexGuruData,
+  fetchKyCatNft,
 } from "../utils/api";
 import { getContracts } from "../utils/contracts";
 import { providersConstants } from "../utils/constants";
@@ -42,11 +44,12 @@ const MainSection = () => {
   const [mantleJourney, setMantleJourney] = useState({});
   const [syncRequestData, setSyncRequestData] = useState({});
   const [openModalSync, setOpenModalSync] = useState(false);
+  const [openModalMint, setOpenModalMint] = useState(false);
+  const [kyCatNftData, setKyCatNftData] = useState(null);
   const router = useRouter();
   const { address } = router.query;
 
   const kyCatDataUpdate = (kyCatData) => {
-    // let resultDEX_GURU = false;
     const mappingKyCatData = kyCatData.providers.map((item, index) => {
       // if (item.symbol === "SNAPSHOT_VOTER" && item.result) {
       //   const ind = response.providers.findIndex(
@@ -54,6 +57,7 @@ const MainSection = () => {
       //   );
       //   response.providers[ind].result = true;
       // }
+      // let resultDEX_GURU = false;
       // if (item.symbol.startsWith("DEX_GURU") && !resultDEX_GURU) {
       //   resultDEX_GURU = true;
       //   return {
@@ -133,16 +137,16 @@ const MainSection = () => {
   async function getKyCatData() {
     setLoading(true);
     fetchKyCatData(address)
+      // .then((data) => {
+      //   if (data.cheshire?.imageURL) {
+      //     setCheshireImage(data.cheshire?.imageURL);
+      //   }
+      //   if (data.providers) {
+      //     return data;
+      //   }
+      // })
       .then((data) => {
-        if (data.cheshire?.imageURL) {
-          setCheshireImage(data.cheshire?.imageURL);
-        }
-        if (data.providers) {
-          return data;
-        }
-      })
-      .then((data) => {
-        if (data.providers.length) {
+        if (data.providers?.length) {
           console.log("!!!get kyCat api data:", data);
           kyCatDataUpdate(data);
         }
@@ -233,6 +237,25 @@ const MainSection = () => {
       });
   }
 
+  async function getKyCatNftData() {
+    fetchKyCatNft(address)
+      .then((data) => {
+        console.log("!!!get kyCatNft data:", data);
+        if (data.imageURL) {
+          setCheshireImage(data.imageURL);
+        }
+        return data;
+      })
+      .then((data) => {
+        if (data.nftData) {
+          setKyCatNftData(data.nftData);
+        }
+      })
+      .catch((error) => {
+        console.log("error fetch", error);
+      });
+  }
+
   async function getAccountInfoMantle(address) {
     if (!address) return;
     setMantleJourney({});
@@ -254,6 +277,7 @@ const MainSection = () => {
       getKyCatData();
       getGitcoinData(address);
       getDexGuruData(address);
+      getKyCatNftData(address);
       getAccountInfoMantle(address);
     }
   }, [address]);
@@ -396,6 +420,19 @@ const MainSection = () => {
                 className={cheshireImage ? "" : stylesAddress.gradient}
               ></div>
             </div>
+            <div className={styles.flex} style={{ margin: "16px" }}>
+              {kyCatNftData && !kyCatNftData.result && (
+                <button
+                  onClick={() => {
+                    setOpenModalMint(true);
+                  }}
+                  type="button"
+                  className={styles.button}
+                >
+                  Mint your Cat
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -435,6 +472,13 @@ const MainSection = () => {
           syncRequestData={syncRequestData}
           afterSyncAction={updateSyncStatus}
         />
+      </Modal>
+      <Modal
+        closeHidden
+        handleClose={() => setOpenModalMint(false)}
+        show={openModalMint}
+      >
+        <MintStepper refreshData={getKyCatData} />
       </Modal>
     </>
   );
